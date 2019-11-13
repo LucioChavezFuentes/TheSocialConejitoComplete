@@ -1,0 +1,11 @@
+{
+  "packages": [
+    "shared/**/*",
+    "packages/*",
+    "packages/isomorphic-boilerplate-graphql/*",
+    "packages/theSocialConejito-server/functions"
+  ],
+  "version": "independent",
+  "npmClient": "yarn",
+  "useWorkspaces": true
+}
