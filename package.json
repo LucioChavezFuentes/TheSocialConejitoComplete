@@ -1,13 +1,11 @@
 {
-  "name": "isomorphic",
+  "name": "thesocialconejito",
   "description": "",
-  "version": "3.0.3",
+  "version": "1.0.0",
   "private": true,
-  "author": "RedQ, Inc",
   "workspaces": [
     "shared/**/*",
     "packages/*",
-    "packages/isomorphic-boilerplate-graphql/*",
     "packages/theSocialConejito-server/functions"
   ],
   "scripts": {
