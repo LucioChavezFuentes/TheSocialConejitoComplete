@@ -30,7 +30,8 @@
     "serve:hotel": "yarn workspace hotel run serve",
     "serve:hotel-next": "yarn workspace hotel-next run serve",
     "start:social-cnjt": "yarn workspace thesocialconejito-client run start",
-    "logs:social-cnjt-server": "yarn workspace functions run logs"
+    "logs:social-cnjt-server": "yarn workspace functions run logs",
+    "update:all": "lerna exec -- yarn upgrade --latest"
   },
   "husky": {
     "hooks": {
