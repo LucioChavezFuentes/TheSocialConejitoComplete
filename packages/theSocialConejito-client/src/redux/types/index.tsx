@@ -2,7 +2,7 @@ import { Store as ReduxStore, Dispatch as ReduxDispatch } from 'redux';
 import UserActions from './actionTypes/userTypes';
 import UiActions from './actionTypes/uiTypes';
 import DataActions from './actionTypes/dataTypes';
-import {AppState} from '../store';
+import {AppState as GlobalState} from '../store';
 
 
 export interface  UserData  {
@@ -23,4 +23,5 @@ export type Store = ReduxStore<AppState, Action>;
 
 export type Dispatch = ReduxDispatch<Action>;
 
-export type AppState = AppState
+export type AppState = GlobalState
+//export {AppState} from '../store';
