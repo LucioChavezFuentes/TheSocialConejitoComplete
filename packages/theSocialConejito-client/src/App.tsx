@@ -99,7 +99,6 @@ const App: React.FC = () => {
 
         </Router>
 
-
       </Provider>
 
     </MuiThemeProvider>

@@ -72,7 +72,6 @@ export const signUp = (req: any, res: any) => {
             
         });
 
-
 };
 
 export const login = (req : any, res: any) => {

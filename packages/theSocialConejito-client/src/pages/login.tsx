@@ -99,7 +99,7 @@ class Login extends Component<LoginProps, LoginState> {
         //The error is the following: https://stackoverflow.com/questions/42090191/picks-k-type-with-dynamic-computed-keys
         this.setState({ 
             [key]: value
-        })    
+        })
     }  
 
     render() {
