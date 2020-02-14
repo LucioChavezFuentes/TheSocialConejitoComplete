@@ -28,12 +28,13 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "redux": "^4.0.4",
+    "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "styled-components": "^4.4.0",
     "typescript": "3.7.2"
   },
   "scripts": {
-    "start": "cross-env PORT=3000 react-scripts start",
+    "start": "cross-env PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

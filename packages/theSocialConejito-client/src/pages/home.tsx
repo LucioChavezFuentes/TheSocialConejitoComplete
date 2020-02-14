@@ -25,15 +25,6 @@ class Home extends Component<HomeProps, HomeState> {
     }
 
     componentDidMount(){
-        /*axios.get('/screams')
-            .then( res => {
-                this.setState({
-                    screams: res.data
-                })  
-            })
-            .catch( error => {
-                console.error(error) 
-            })*/
         this.props.getScreams()
     }
 
