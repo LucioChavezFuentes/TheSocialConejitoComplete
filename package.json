@@ -14,7 +14,7 @@
     "start:all": "lerna run --parallel start",
     "start:social-cnjt": "yarn workspace thesocialconejito-client run start",
     "build:social-cnjt": "yarn workspace thesocialconejito-client run build",
-    "deploy:social-cnjt": "yarn workspace thesocialconejito-client run build && run deploy",
+    "deploy:social-cnjt": "yarn workspace thesocialconejito-client run build && yarn workspace thesocialconejito-client run deploy",
     "logs:social-cnjt-server": "yarn workspace functions run logs",
     "update:all": "lerna exec -- yarn upgrade --latest"
   },
