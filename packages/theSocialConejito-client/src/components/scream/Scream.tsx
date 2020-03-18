@@ -40,8 +40,13 @@ const styles = (theme: Theme) => createStyles({
         
     },
     content: {
-        padding: 25,
-        objectFit: ("cover" as any) 
+        padding: '25px',
+        objectFit: "cover",
+        width:'100%',
+
+        [theme.breakpoints.down('sm')]: {
+            padding: '15px',
+        }
     }
 })
 
