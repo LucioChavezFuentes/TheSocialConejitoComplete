@@ -33,7 +33,8 @@ const styles = (theme: Theme) => createStyles({
         [theme.breakpoints.down('sm')]: {
             minWidth: '2rem',
             maxHeight: '2rem',
-            margin: '10px',
+            margin: '15px',
+            marginRight: '0',
             borderRadius: '50%',
             
         },
@@ -100,9 +101,18 @@ class Scream extends Component<ScreamProps> {
 
                         <span>{`${likeCount} ${isMobile ? "" : "Likes"}` }</span>
 
-                        <MyButton  tipTitle='Comment' >
-                             <ChatIcon color='primary' />
-                        </MyButton>
+                        {!authenticated ? (
+                            <Link to='/login'>
+                                <MyButton tipTitle='Like'>
+                                    <ChatIcon color='primary' />
+                                </MyButton>
+                            </Link> ) : (
+                                <MyButton  tipTitle='Comment' >
+                                    <ChatIcon color='primary' />
+                                </MyButton>
+                            )}
+
+                        
 
                         <span>{`${commentCount} ${isMobile ? "" : "Comments"}`} </span>
 

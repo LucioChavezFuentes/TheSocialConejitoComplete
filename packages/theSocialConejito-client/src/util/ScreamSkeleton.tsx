@@ -7,7 +7,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 
-const styles = ({palette} : Theme) => createStyles({
+const styles = (theme: Theme) => createStyles({
     card: {
         display: 'flex',
         marginBottom: '1.5rem'
@@ -16,27 +16,47 @@ const styles = ({palette} : Theme) => createStyles({
     cardContent:{
         width: '100%',
         flexDirection: 'column',
-        padding: '1.5rem'
+        padding: '1.5rem',
+        [theme.breakpoints.down('sm')]: {
+            padding: '1rem',
+        },
     },
 
     cover: {
         minWidth: '12rem',
-        objectFit: 'cover'
+        objectFit: 'cover',
+        [theme.breakpoints.down('sm')]: {
+            minWidth: '2rem',
+            maxHeight: '2rem',
+            margin: '15px',
+            marginRight: '0',
+            borderRadius: '50%',
+            
+        },
 
     },
 
     handle: {
         width: '5rem',
         height: '1.5rem',
-        backgroundColor: palette.primary.main,
-        marginBottom:'0.7rem'
+        backgroundColor: theme.palette.primary.main,
+        marginBottom:'0.7rem',
+
+        [theme.breakpoints.down('sm')]: {
+            height: '1rem',
+            
+        },
     },
 
     date:{
         height: '1.1rem',
         width: '7rem',
         backgroundColor: 'rgba(0,0,0, 0.3)',
-        marginBottom: '0.7rem'
+        marginBottom: '0.7rem',
+        [theme.breakpoints.down('sm')]: {
+            height: '0.9rem',
+            
+        },
     },
 
     fullLine:{
