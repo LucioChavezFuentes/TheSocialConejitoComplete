@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {withStyles, WithStyles,  createStyles, Theme } from '@material-ui/core';
+import {withStyles, WithStyles,  createStyles, Theme} from '@material-ui/core';
 import {Link} from 'react-router-dom';
 import dayjs from 'dayjs'; 
 import relativeTime from 'dayjs/plugin/relativeTime'; 
@@ -21,8 +21,6 @@ import { AppState } from '../../redux/store';
 
 //Icons
 import ChatIcon from '@material-ui/icons/Chat';
-
-
 
 const styles = (theme: Theme) => createStyles({
     card : {
@@ -67,6 +65,7 @@ class Scream extends Component<ScreamProps> {
         } = this.props
         
         
+        const isMobile = window.innerWidth <= 600;
 
         dayjs.extend(relativeTime);
 
@@ -94,13 +93,13 @@ class Scream extends Component<ScreamProps> {
                         
                         <LikeButton screamId={screamId} />
 
-                        <span>{likeCount}  Likes</span>
+                        <span>{`${likeCount} ${isMobile ? "" : "Likes"}` }</span>
 
                         <MyButton  tipTitle='Comment' >
                              <ChatIcon color='primary' />
                         </MyButton>
 
-                        <span>{commentCount} Comments </span>
+                        <span>{`${commentCount} ${isMobile ? "" : "Comments"}`} </span>
 
                         <ScreamDialog screamId={screamId} userHandle={userHandle} openDialog={this.props.openDialog} />
 

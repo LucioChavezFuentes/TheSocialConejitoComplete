@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {withStyles, WithStyles,  createStyles } from '@material-ui/core';
+import {withStyles, WithStyles,  createStyles, Theme } from '@material-ui/core';
 import {Link} from 'react-router-dom';
 import dayjs from 'dayjs';  
 import MyButton from '../../util/MyButton';
@@ -25,7 +25,7 @@ import {getScream} from '../../redux/actions/dataActions';
 import {clearErrors} from '../../redux/actions/uiActions';
 import { AppState } from '../../redux/types';
 
-const styles = createStyles({
+const styles = (theme: Theme) => createStyles({
     closeButton: {
         position: 'absolute',
         left: '91%',
@@ -33,7 +33,13 @@ const styles = createStyles({
     },
     expandButton: {
         position: 'absolute',
-        left: '90%'
+        left: '90%',
+
+        [theme.breakpoints.down('sm')]: {
+            position: 'relative',
+            left: 'auto',
+            float: 'right',
+        },
     },
     profileImage: {
         maxWidth: '10rem',
