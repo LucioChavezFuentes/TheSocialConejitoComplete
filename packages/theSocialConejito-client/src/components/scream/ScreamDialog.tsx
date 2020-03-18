@@ -185,7 +185,7 @@ class ScreamDialog extends Component<Props, State> {
 
         return (
             <Fragment>
-                <MyButton tipTitle='Ver más de este Scream' onClick={this.handleOpen} tipClassName={classes.expandButton}>
+                <MyButton tipTitle='see more' onClick={this.handleOpen} tipClassName={classes.expandButton}>
                     <UnfoldMore color='primary' />
                 </MyButton>
 

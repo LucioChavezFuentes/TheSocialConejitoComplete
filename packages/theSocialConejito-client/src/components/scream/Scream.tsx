@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {withStyles, WithStyles,  createStyles } from '@material-ui/core';
+import {withStyles, WithStyles,  createStyles, Theme } from '@material-ui/core';
 import {Link} from 'react-router-dom';
 import dayjs from 'dayjs'; 
 import relativeTime from 'dayjs/plugin/relativeTime'; 
@@ -24,14 +24,22 @@ import ChatIcon from '@material-ui/icons/Chat';
 
 
 
-const styles = createStyles({
+const styles = (theme: Theme) => createStyles({
     card : {
         position: 'relative',
         display: 'flex',
         marginBottom: 20
     },
     image: {
-        minWidth: '12rem'
+        minWidth: '12rem',
+        [theme.breakpoints.down('sm')]: {
+            minWidth: '2rem',
+            maxHeight: '2rem',
+            margin: '10px',
+            borderRadius: '50%',
+            
+        },
+        
     },
     content: {
         padding: 25,
@@ -73,7 +81,7 @@ class Scream extends Component<ScreamProps> {
                     <CardMedia image={userImage} title={'Profile Image'} className={classes.image} /> 
                     {deleteButton}
                     
-                    <CardContent className={classes.content}> 
+                    <CardContent className={classes.content}>
                         {/* 
                              // @ts-ignore */}
                         <Typography variant='h5' color='primary' component={Link} to={`/users/${userHandle}`}>
