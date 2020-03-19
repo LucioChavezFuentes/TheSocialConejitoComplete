@@ -70,7 +70,7 @@ const App: React.FC = () => {
   return (
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
-
+      
         <Router>
           <NavBar />
           <div className="container">
@@ -96,8 +96,8 @@ const App: React.FC = () => {
             </Switch>
 
           </div>
-
         </Router>
+        
 
       </Provider>
 

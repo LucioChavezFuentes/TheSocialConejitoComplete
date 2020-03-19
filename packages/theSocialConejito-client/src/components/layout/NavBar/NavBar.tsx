@@ -5,8 +5,6 @@ import PostScream from '../../scream/PostScream';
 import Notifications from '../Notifications';
 import AppIcon from '../../../images/icon.svg';
 //CSS
-//The margin 'auto' keeps the Buttons Elements at the center of ToolBar
-import './NavBar.css';
 
 //React-Router-Dom
 import {Link} from 'react-router-dom';
@@ -26,6 +24,12 @@ import {connect} from 'react-redux';
 import { AppState } from '../../../redux/store';
 
 const styles = (theme: Theme) => createStyles({
+
+    header: {
+        height: '2rem',
+         
+      },
+
     navContainer: {
         
         flexGrow: 2,
@@ -72,8 +76,8 @@ class NavBar extends Component<Props> {
     render() {
         const {authenticated, classes} = this.props;
         return (
-            <AppBar>
-                
+            <div className={classes.header}>
+            <AppBar style={{minHeight: '3rem'}}>
                 <Toolbar>
                 <div className={classes.rabbitImageContainer}>
                     <Link to='/'>
@@ -116,6 +120,7 @@ class NavBar extends Component<Props> {
 
                 </Toolbar>
             </AppBar>
+            </div>
         )
     }
 }
