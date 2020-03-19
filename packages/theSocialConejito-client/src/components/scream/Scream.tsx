@@ -47,6 +47,16 @@ const styles = (theme: Theme) => createStyles({
 
         [theme.breakpoints.down('sm')]: {
             padding: '15px',
+        },
+
+        [theme.breakpoints.down(290)]: {
+            padding: '10px',
+        },
+
+        '& button': {
+            [theme.breakpoints.down(290)]: {
+                padding: '5px',
+            },
         }
     }
 })

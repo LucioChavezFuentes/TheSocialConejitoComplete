@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import {withStyles, WithStyles,  createStyles } from '@material-ui/core';
+import {withStyles, WithStyles,  createStyles, Theme } from '@material-ui/core';
 import MyButton from '../../../util/MyButton';
 import PostScream from '../../scream/PostScream';
 import Notifications from '../Notifications';
@@ -25,14 +25,23 @@ import HomeIcon from '@material-ui/icons/Home';
 import {connect} from 'react-redux';
 import { AppState } from '../../../redux/store';
 
-const styles = createStyles({
+const styles = (theme: Theme) => createStyles({
     navContainer: {
         
         flexGrow: 2,
         textAlign: 'center',
         '& svg': {
             color: '#ffffff'
-        }
+        },
+
+        '& a': {
+            [theme.breakpoints.down(290)]: {
+                fontSize: '11px',
+                minWidth: '55px',
+            },
+        },
+
+        
     },
 
     rabbitImageContainer: {
@@ -47,7 +56,10 @@ const styles = createStyles({
     invisibleObject: {
         flexGrow: 1,
         visibility: 'hidden',
-        display: 'flex'
+        display: 'flex',
+        [theme.breakpoints.down(290)]: {
+            display: 'none'
+        }
     } 
 })
 
@@ -60,9 +72,9 @@ class NavBar extends Component<Props> {
     render() {
         const {authenticated, classes} = this.props;
         return (
-            <AppBar>
+            <AppBar >
                 
-                <Toolbar  >
+                <Toolbar >
                 <div className={classes.rabbitImageContainer}>
                     <Link to='/'>
                         <Tooltip title='Regresa a Casa'>
