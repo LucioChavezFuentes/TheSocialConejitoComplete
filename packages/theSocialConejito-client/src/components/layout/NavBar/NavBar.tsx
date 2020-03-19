@@ -56,7 +56,7 @@ const styles = (theme: Theme) => createStyles({
     invisibleObject: {
         flexGrow: 1,
         visibility: 'hidden',
-        display: 'flex',
+        //display: 'flex',
         [theme.breakpoints.down(290)]: {
             display: 'none'
         }
@@ -72,9 +72,9 @@ class NavBar extends Component<Props> {
     render() {
         const {authenticated, classes} = this.props;
         return (
-            <AppBar >
+            <AppBar>
                 
-                <Toolbar >
+                <Toolbar>
                 <div className={classes.rabbitImageContainer}>
                     <Link to='/'>
                         <Tooltip title='Regresa a Casa'>
