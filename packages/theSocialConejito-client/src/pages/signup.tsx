@@ -38,7 +38,8 @@ interface SignupState {
 
 const styles = createStyles({
     form:{
-        textAlign: "center"
+        textAlign: "center",
+        marginBottom: '20px',
     },
     image: {
         margin: "1.5rem auto",

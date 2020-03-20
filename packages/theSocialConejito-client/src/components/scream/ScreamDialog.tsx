@@ -29,7 +29,16 @@ const styles = (theme: Theme) => createStyles({
     closeButton: {
         position: 'absolute',
         left: '91%',
-        top: '3%'
+        top: '3%',
+
+        [theme.breakpoints.down('sm')]: {
+            position: 'relative',
+            width: '20px',
+            marginLeft: '90%',
+            left: '0',
+            top: '0',
+
+        },
     },
     expandButton: {
         position: 'absolute',
@@ -41,12 +50,19 @@ const styles = (theme: Theme) => createStyles({
             float: 'right',
         },
     },
+    profileImageContainer: {
+        textAlign: 'center',
+    },
     profileImage: {
         maxWidth: '10rem',
         height: '10rem',
         borderRadius: '50%',
-        objectFit: 'cover'
-    }, 
+        objectFit: 'cover',
+        [theme.breakpoints.down('sm')]: {
+            height: '9rem',
+            
+        },
+    },
     invisibleSeparator: {
         border: 'none',
         margin: '0.3rem' 
@@ -139,16 +155,18 @@ class ScreamDialog extends Component<Props, State> {
             } 
         } = this.props;
 
+        const isMobile = window.innerWidth <= 600;
+
         const dialogMarkUp = loading ? (
             <div className={classes.spinnerDiv}>
                 <CircularProgress color='primary' size={200} thickness={2} />
             </div> 
         ) : (
-            <Grid container spacing={6}> 
-                <Grid item sm={5}>
+            <Grid container alignItems='center' spacing={6}> 
+                <Grid item xs={12} sm={5} className={classes.profileImageContainer}  >
                     <img src={userImage} alt='Profile' className={classes.profileImage} />  
                 </Grid>
-                <Grid item sm={7}>
+                <Grid item xs={12} sm={7}>
                         {/* 
                              // @ts-ignore */}
                     <Typography component={Link} to={`/users/${userHandle}`} variant='h5' color='primary' >
@@ -169,13 +187,13 @@ class ScreamDialog extends Component<Props, State> {
 
                     <LikeButton screamId= {screamId} /> 
 
-                    <span>{likeCount}  Likes</span>
+                    <span>{`${likeCount} ${isMobile ? "" : "Likes"}` }</span>
 
                     <MyButton  tipTitle='Comment' >
                         <ChatIcon color='primary' />
                     </MyButton>
 
-                    <span>{commentCount} Comments </span>
+                    <span>{`${commentCount} ${isMobile ? "" : "Comments"}`}</span>
                 </Grid>
 
                 <hr className={classes.visibleSeparator} />

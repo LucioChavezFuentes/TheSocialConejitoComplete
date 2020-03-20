@@ -28,6 +28,10 @@ class Home extends Component<HomeProps, HomeState> {
         this.props.getScreams()
     }
 
+    getSpacing = () => {
+        return (window.innerWidth <= 600 ? 1 : window.innerWidth <= 1050 ? 2 : 3)
+    }
+
 
     render() {
         const {loading, screams} = this.props.data
@@ -41,7 +45,7 @@ class Home extends Component<HomeProps, HomeState> {
 
         //Watch out with Grid Spacing, it could make unexpected changes on web mobile design. Use low numbers on mobile.
         return (
-            <Grid container spacing={window.innerWidth <= 600 ? 1 : 3}>
+            <Grid container spacing={this.getSpacing()}>
                 <Grid item sm={8} xs={12}>
                     {recentScreamsMarkUp} 
                 </Grid>
