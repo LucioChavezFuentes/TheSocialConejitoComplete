@@ -26,9 +26,29 @@ import { AppState } from '../../../redux/store';
 const styles = (theme: Theme) => createStyles({
 
     header: {
-        height: '2rem',
-         
+        [theme.breakpoints.down('sm')]: {
+            display: "flex",
+            //marginBottom: "20px",
+            width: "100%",
+            //flexFlow: "row nowrap",
+            justifyContent: "flex-start",
+            //paddingTop: '0.6rem',
+            transition: "all 150ms ease 0s",
+            
+        },
       },
+
+    container: {
+        container: {
+            minHeight: "50px",
+            flex: "1",
+            alignItems: "center",
+            justifyContent: "space-between",
+            display: "flex",
+            flexWrap: "nowrap"
+          },
+
+    },
 
     navContainer: {
         
@@ -44,7 +64,6 @@ const styles = (theme: Theme) => createStyles({
                 minWidth: '55px',
             },
         },
-
         
     },
 
@@ -76,9 +95,9 @@ class NavBar extends Component<Props> {
     render() {
         const {authenticated, classes} = this.props;
         return (
-            <div className={classes.header}>
-            <AppBar style={{minHeight: '3rem'}}>
-                <Toolbar>
+            
+            <AppBar  className={classes.header}>
+                <Toolbar className={classes.container} >
                 <div className={classes.rabbitImageContainer}>
                     <Link to='/'>
                         <Tooltip title='Regresa a Casa'>
@@ -120,7 +139,6 @@ class NavBar extends Component<Props> {
 
                 </Toolbar>
             </AppBar>
-            </div>
         )
     }
 }

@@ -38,8 +38,10 @@ class Home extends Component<HomeProps, HomeState> {
             <ScreamSkeleton />
             );
 
+
+        //Watch out with Grid Spacing, it could make unexpected changes on web mobile design. Use low numbers on mobile.
         return (
-            <Grid container spacing={3}>
+            <Grid container spacing={window.innerWidth <= 600 ? 1 : 3}>
                 <Grid item sm={8} xs={12}>
                     {recentScreamsMarkUp} 
                 </Grid>
