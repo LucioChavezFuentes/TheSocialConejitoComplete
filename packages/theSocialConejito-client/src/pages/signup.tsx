@@ -154,7 +154,7 @@ class Signup extends Component<SignupProps, SignupState> {
                         id='handle' 
                         name='handle' 
                         type='text' 
-                        label='Handle' 
+                        label='Username' 
                         helperText={errors.handle} 
                         error={errors.handle ? true : false}
                         className={classes.textField} 
