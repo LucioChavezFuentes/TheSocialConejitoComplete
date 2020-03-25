@@ -120,10 +120,16 @@ class Notifications extends Component<Props, State> {
                     </IconButton>
                 </Tooltip>
                 <Menu
+                    style={{top: '35px'}}
                     anchorEl={anchorElement}
                     open={Boolean(anchorElement)}
                     onClose={this.handleClose}
                     onEntered={this.onMenuOpened}
+                    
+                    transformOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center',
+                      }} 
                     >
                         {notificationsMarkUp}
 
