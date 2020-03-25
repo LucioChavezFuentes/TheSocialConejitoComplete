@@ -99,8 +99,8 @@ class Notifications extends Component<Props, State> {
                                 color='textPrimary' 
                                 variant='body1'
                                 to={`/users/${notif.recipient}/scream/${notif.screamId}`}
-                                >
-                                    {notif.sender} {verb} tu Grito {time}
+                            >
+                                    {notif.sender} {verb} your squeal {time}
                             </Typography>
                         </MenuItem>
                     )
@@ -108,7 +108,7 @@ class Notifications extends Component<Props, State> {
                 })
             ) : (
                 <MenuItem onClick={this.handleClose}>
-                    No tienes notificaciones por ahora chavo.
+                    No notifications for now bunny.
                 </MenuItem>
             )
 

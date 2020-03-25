@@ -48,6 +48,10 @@ class User extends Component<Props, State> {
             .catch(error => console.log(error))
     }
 
+    getSpacing = () => {
+        return (window.innerWidth <= 600 ? 1 : window.innerWidth <= 1050 ? 2 : 3)
+    }
+
     render() {
         const {screams, loading} = this.props.data;
         const {screamIdParams} = this.state;
@@ -72,7 +76,7 @@ class User extends Component<Props, State> {
 
 
         return (
-            <Grid container spacing={3}>
+            <Grid container spacing={this.getSpacing()}>
                 <Grid item sm={8} xs={12}>
                     {screamsMarkUp} 
                 </Grid>

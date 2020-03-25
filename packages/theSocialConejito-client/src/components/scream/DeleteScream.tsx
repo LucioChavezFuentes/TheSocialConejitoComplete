@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {withStyles, WithStyles,  createStyles } from '@material-ui/core';
+import {withStyles, WithStyles,  createStyles, Theme } from '@material-ui/core';
 import MyButton from '../../util/MyButton';
 
 //Material Ui Imports
@@ -15,12 +15,25 @@ import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import {connect} from 'react-redux';
 import {deleteScream} from '../../redux/actions/dataActions';
 
-const styles = createStyles({
+const microMobile = 270;
+
+const styles = (theme: Theme) => createStyles({
     deleteButton: {
         position: 'absolute',
         left: '90%',
-        top: '10%'
-    }
+        top: '10%',
+
+        [theme.breakpoints.down('sm')]: {
+            top: '10px',
+            position: 'absolute',
+            right: '16px',
+            left: 'auto',
+        },
+
+        [theme.breakpoints.down(microMobile)]: {
+            right: '5px',
+        },
+    },
 });
 
 //TODO: Need Testing for Delete Scream Action

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import MyButton from '../../util/MyButton';
-import {withStyles, WithStyles,  createStyles } from '@material-ui/core'; 
+import {withStyles, WithStyles,  createStyles, Theme } from '@material-ui/core'; 
 
 //Redux Imports
 import {connect} from 'react-redux';
@@ -23,7 +23,7 @@ import CloseIcon from '@material-ui/icons/Close';
 
 
 
-const styles= createStyles({
+const styles = (theme: Theme) => createStyles({
     progress : {
         position: 'absolute'
       },
@@ -42,7 +42,14 @@ const styles= createStyles({
     closeButton: {
         position: 'absolute',
         left: '91%',
-        top: '3%'
+        top: '3%',
+
+        [theme.breakpoints.down('sm')]: {
+            top: '5px',
+            position: 'absolute',
+            right: '0',
+            left: 'auto',
+        },
     }
     
 })
@@ -144,11 +151,10 @@ export class PostScream extends Component<Props, State> {
                             <TextField
                                 name='body'
                                 type='text'
-                                label='Scream'
+                                label='Squeal'
                                 value={this.state.body}
                                 multiline
-                                rows='3'
-                                placeholder='Hechate un gritito'
+                                placeholder='Express yourself bunny'
                                 error= {errors.body ? true: false}
                                 helperText={errors.body} 
                                 className={classes.textField}
@@ -160,7 +166,7 @@ export class PostScream extends Component<Props, State> {
                             
                             <Button type='submit' variant='contained' color='primary' className={classes.submitButton} disabled={loading}>
                                     
-                                    Submit
+                                    Squeal
                                     {loading && (<CircularProgress size={30} className={classes.progress} />)}
 
                             </Button>

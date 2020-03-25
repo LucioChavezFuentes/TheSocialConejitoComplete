@@ -25,6 +25,8 @@ import {getScream} from '../../redux/actions/dataActions';
 import {clearErrors} from '../../redux/actions/uiActions';
 import { AppState } from '../../redux/types';
 
+//const microMobile = 270;
+
 const styles = (theme: Theme) => createStyles({
     closeButton: {
         position: 'absolute',
@@ -32,13 +34,14 @@ const styles = (theme: Theme) => createStyles({
         top: '3%',
 
         [theme.breakpoints.down('sm')]: {
-            position: 'relative',
-            width: '20px',
-            marginLeft: '90%',
-            left: '0',
-            top: '0',
-
+            top: '5px',
+            position: 'absolute',
+            right: '0',
+            left: 'auto',
         },
+
+        
+            
     },
     expandButton: {
         position: 'absolute',
@@ -60,6 +63,7 @@ const styles = (theme: Theme) => createStyles({
         objectFit: 'cover',
         [theme.breakpoints.down('sm')]: {
             height: '9rem',
+            maxWidth: '9rem',
             
         },
     },
@@ -159,7 +163,7 @@ class ScreamDialog extends Component<Props, State> {
 
         const dialogMarkUp = loading ? (
             <div className={classes.spinnerDiv}>
-                <CircularProgress color='primary' size={200} thickness={2} />
+                <CircularProgress color='primary' size={isMobile ? 100 :200} thickness={2} />
             </div> 
         ) : (
             <Grid container alignItems='center' spacing={6}> 

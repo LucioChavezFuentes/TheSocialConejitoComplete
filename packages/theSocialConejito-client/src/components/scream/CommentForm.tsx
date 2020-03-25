@@ -87,7 +87,7 @@ class CommentForm extends Component<Props, State> {
                     <TextField 
                         name='body'
                         type='text'
-                        label='Comment on scream'
+                        label='Comment on squeal'
                         error={errors.comment ? true : false}
                         helperText={errors.comment}
                         value={this.state.body}
@@ -96,7 +96,7 @@ class CommentForm extends Component<Props, State> {
                         className={classes.textField} 
                     />
                     <Button type='submit' variant='contained' color='primary' className={classes.button}>
-                        Submit
+                        Comment
                     </Button>
 
                     <hr className={classes.visibleSeparator} />
