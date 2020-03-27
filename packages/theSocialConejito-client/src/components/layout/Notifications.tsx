@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import {Link} from 'react-router-dom';
 import dayjs from 'dayjs'; 
 import relativeTime from 'dayjs/plugin/relativeTime'; 
+import NotificationsDialog from './NotificationsDialog';
 
 //MUI Imports
 import Menu from '@material-ui/core/Menu';
@@ -112,7 +113,7 @@ class Notifications extends Component<Props, State> {
                 </MenuItem>
             )
 
-        return (
+        return ( window.innerWidth >= 600 ?
             <Fragment>
                 <Tooltip title='Notificaciones' placement='top'>
                     <IconButton aria-owns={anchorElement ? 'simple-menu' : undefined} aria-haspopup='true' onClick={this.handleOpen}>
@@ -135,6 +136,9 @@ class Notifications extends Component<Props, State> {
 
                 </Menu>
             </Fragment> 
+            : (
+                <NotificationsDialog notificationsIcon={notificationsIcon} />
+            )
         )
     }
 }

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import {withStyles, WithStyles,  createStyles, Theme } from '@material-ui/core';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
+import {RouteComponentProps} from "react-router";
 import dayjs from 'dayjs';  
 import MyButton from '../../util/MyButton';
 import LikeButton from './LikeButton';
@@ -104,19 +105,42 @@ interface State {
     open: boolean;
     oldPath: string;
     newPath: string;
+    hasClosed: boolean;
 }
 
-class ScreamDialog extends Component<Props, State> {
+interface PathParamsType {
+    user : string;
+    screamId: string
+}
+
+type screamDialogProps = RouteComponentProps<PathParamsType> & Props
+
+class ScreamDialog extends Component<screamDialogProps, State> {
 
     state: State = {
         open: false,
         oldPath: '',
-        newPath: '' 
+        newPath: '',
+        hasClosed: false, 
     }
 
     componentDidMount() {
         if(this.props.openDialog){
             this.handleOpen()
+        }
+    }
+
+    componentDidUpdate(prevProps :screamDialogProps , prevState : State) {
+        const {screamId, userHandle, match: {params}, location} = this.props;
+        const {match: {params : prevParams}, location: prevLocation} = prevProps;
+        const userPath = `/users/${userHandle}`
+        const screamPath = `/users/${userHandle}/scream/${screamId}`
+        const currentPath = location.pathname
+        const prevPath = prevLocation.pathname
+
+        if(currentPath !== userPath && params.screamId === screamId && prevPath !== screamPath ){
+            this.setState({open: true})
+            this.props.getScream(this.props.screamId);
         }
     } 
     
@@ -132,7 +156,7 @@ class ScreamDialog extends Component<Props, State> {
 
         window.history.pushState(null, '', newPath)
 
-        this.setState({open: true, oldPath, newPath});
+        this.setState({open: true, oldPath, newPath, hasClosed: false});
         this.props.getScream(this.props.screamId);
     }
 
@@ -240,4 +264,4 @@ const mapStateToProps = (appState: AppState) => ({
 })
 
 
-export default connect(mapStateToProps, {getScream, clearErrors})(withStyles(styles)(ScreamDialog))
+export default connect(mapStateToProps, {getScream, clearErrors})(withStyles(styles)(withRouter(ScreamDialog)))
