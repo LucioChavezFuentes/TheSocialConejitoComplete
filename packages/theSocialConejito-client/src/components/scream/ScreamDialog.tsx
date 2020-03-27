@@ -130,17 +130,18 @@ class ScreamDialog extends Component<screamDialogProps, State> {
         }
     }
 
+//TODO: Find a way to use componentDidUpdate only on the scream selected in the URL
+//Will re-render and open the corresponding scream dialog in the URL if it dictates it.
     componentDidUpdate(prevProps :screamDialogProps , prevState : State) {
         const {screamId, userHandle, match: {params}, location} = this.props;
-        const {match: {params : prevParams}, location: prevLocation} = prevProps;
+        const {match: {params : prevParams}, location: prevLocation, match} = prevProps;
         const userPath = `/users/${userHandle}`
         const screamPath = `/users/${userHandle}/scream/${screamId}`
         const currentPath = location.pathname
         const prevPath = prevLocation.pathname
 
-        if(currentPath !== userPath && params.screamId === screamId && prevPath !== screamPath ){
-            this.setState({open: true})
-            this.props.getScream(this.props.screamId);
+        if(currentPath !== userPath && params.screamId === screamId && (prevPath !== screamPath || prevPath === userPath) ){
+            this.handleOpen()
         }
     } 
     
@@ -161,7 +162,8 @@ class ScreamDialog extends Component<screamDialogProps, State> {
     }
 
     handleClose = () => {
-        window.history.pushState(null, '', this.state.oldPath);
+        this.props.history.push(this.state.oldPath)
+        //window.history.pushState(null, '', this.state.oldPath);
 
         this.setState({open: false});
         this.props.clearErrors();
