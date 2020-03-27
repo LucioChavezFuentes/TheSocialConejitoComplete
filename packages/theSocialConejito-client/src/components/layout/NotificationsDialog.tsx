@@ -17,6 +17,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 //Icons Imports
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ChatIcon from '@material-ui/icons/Chat'
+import CloseIcon from '@material-ui/icons/Close';
 
 import Typography from '@material-ui/core/Typography';
 
@@ -83,9 +84,19 @@ function NotificationsDialog(props: any) {
             </IconButton>
             <Dialog open={open} onClose={handleClose} fullWidth maxWidth='md' fullScreen={isMobile} scroll='body' TransitionComponent={Transition}>
             
-                <DialogTitle>Notifications</DialogTitle>
+                <DialogTitle>
+                    Notifications
 
-                <DialogContentText>¡Bunnies reacted to you!</DialogContentText>
+                    <div style={{float: 'right'}} >
+                    <IconButton onClick={handleClose} style={{padding: 'unset'}}>
+                        <CloseIcon />
+                    </IconButton> 
+                </div>
+                </DialogTitle>
+
+                
+
+                <DialogContentText style={{marginLeft: '24px'}}>¡Bunnies reacted to you!</DialogContentText>
 
                 <List>
                     {notificationsMarkUp}
