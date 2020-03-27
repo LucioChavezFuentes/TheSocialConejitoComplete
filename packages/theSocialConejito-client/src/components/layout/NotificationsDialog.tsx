@@ -8,7 +8,6 @@ import { useTheme } from '@material-ui/core/styles';
 import Slide from '@material-ui/core/Slide';
 import { TransitionProps } from '@material-ui/core/transitions';
 import Dialog from '@material-ui/core/Dialog';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -16,7 +15,6 @@ import IconButton from '@material-ui/core/IconButton';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
 //Icons Imports
-import NotificationsIcon from '@material-ui/icons/Notifications'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ChatIcon from '@material-ui/icons/Chat'
 

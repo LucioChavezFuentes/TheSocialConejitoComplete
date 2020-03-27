@@ -134,7 +134,7 @@ class ScreamDialog extends Component<screamDialogProps, State> {
 //Will re-render and open the corresponding scream dialog in the URL if it dictates it.
     componentDidUpdate(prevProps :screamDialogProps , prevState : State) {
         const {screamId, userHandle, match: {params}, location} = this.props;
-        const {match: {params : prevParams}, location: prevLocation, match} = prevProps;
+        const {location: prevLocation} = prevProps;
         const userPath = `/users/${userHandle}`
         const screamPath = `/users/${userHandle}/scream/${screamId}`
         const currentPath = location.pathname
