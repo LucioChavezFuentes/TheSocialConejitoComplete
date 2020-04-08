@@ -72,5 +72,5 @@ const mapActionsToProps = {
 }
 
 //Always esport defualt a component in Typescript,
-//it seems the Props types in '{} imports' doesn't work well. 
+//it seems the Props types in 'imports {} from' doesn't work well. 
 export default connect(mapStateToProps, mapActionsToProps)(LikeButton);

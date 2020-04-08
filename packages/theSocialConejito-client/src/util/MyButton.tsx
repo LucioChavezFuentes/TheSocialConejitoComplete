@@ -8,11 +8,12 @@ interface Props {
     tipTitle: string;
     tipClassName?: string;
     btnClassName?: string;
+    disabled?: boolean
 }
 
-const MyButton : React.FC<Props>  = ({children, onClick, tipTitle, tipClassName, btnClassName}) => (
+const MyButton : React.FC<Props>  = ({children, onClick, tipTitle, tipClassName, btnClassName, ...rest}) => (
     <Tooltip title={tipTitle} className={tipClassName} placement='top' >
-        <IconButton onClick={onClick} className={btnClassName} >
+        <IconButton onClick={onClick} className={btnClassName} {...rest} >
             {children}
         </IconButton> 
     </Tooltip>

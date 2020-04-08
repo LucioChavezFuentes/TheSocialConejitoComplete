@@ -8,7 +8,7 @@ interface commentData {
     body: string
 }
 
-//Get all Screams
+//Get ALL Screams
 export const getScreams = () => (dispacth : Dispatch) => {
     dispacth({type: LOADING_DATA});
 
