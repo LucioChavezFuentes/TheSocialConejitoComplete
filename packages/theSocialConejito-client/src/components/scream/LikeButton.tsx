@@ -16,6 +16,7 @@ interface Props {
     user: AppState['user'];
     likeScream: (screamId: string) => void;
     unlikeScream: (screamId: string) => void;
+    loadingLike: boolean;
     screamId: string;
 
 } 
@@ -63,7 +64,8 @@ class LikeButton extends Component<Props> {
 }
 
 const mapStateToProps = (appState: AppState) => ({
-    user: appState.user
+    user: appState.user,
+    loadingLike: appState.data.loadingLike
 })
 
 const mapActionsToProps = {

@@ -1,4 +1,4 @@
-import { SET_SCREAMS, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT} from '../types/actionTypes/dataTypes'
+import { SET_SCREAMS, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE} from '../types/actionTypes/dataTypes'
 import {LOADING_UI, SET_ERRORS, CLEAR_ERRORS, CLOSE_WINDOW_POST_SCREAM, STOP_LOADING_UI} from '../types/actionTypes/uiTypes';
 import {Dispatch} from '../types';
 import axios from 'axios';
@@ -68,7 +68,7 @@ export const postScream = (newScream: any) => (dispatch: Dispatch) => {
 
 // Like a Scream
 export const likeScream = (screamId : string) => (dispatch: Dispatch) => {
-
+    dispatch({type: LOADING_LIKE});
     axios.get(`/scream/${screamId}/like`)
         .then((res) => {
             dispatch({
@@ -81,7 +81,7 @@ export const likeScream = (screamId : string) => (dispatch: Dispatch) => {
 
 // Unlike a Scream
 export const unlikeScream = (screamId : string) => (dispatch: Dispatch) => {
-
+    dispatch({type: LOADING_LIKE});
     axios.get(`/scream/${screamId}/unlike`)
         .then((res) => {
             dispatch({

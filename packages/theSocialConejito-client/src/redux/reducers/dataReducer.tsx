@@ -1,4 +1,4 @@
-import { SET_SCREAMS, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT} from '../types/actionTypes/dataTypes'
+import { SET_SCREAMS, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE} from '../types/actionTypes/dataTypes'
 
 
 import { Action } from "../types";
@@ -7,12 +7,14 @@ interface DataState {
     screams: any[];
     scream: any;
     loading: boolean;
+    loadingLike: boolean;
 }
 
 const initialState : DataState = {
     screams: [], 
     scream: {},
-    loading: false
+    loading: false,
+    loadingLike: false,
 }
 
 export default function(state = initialState, action: Action) : DataState {
@@ -37,15 +39,23 @@ export default function(state = initialState, action: Action) : DataState {
         case UNLIKE_SCREAM:
             //TODO: Fix likeScream action and/or reducer when is dispatched on ScreamDialog Open, 
             //it seems the like scream and unlike scream lose the comments[] property in state
-            let index = state.screams.findIndex((scream) => scream.screamId === action.payload.screamId)
-            state.screams[index] = action.payload
-            if(state.scream.screamId === action.payload.screamId){
-                state.scream = {
-                    ...state.scream,
-                    ...action.payload}  
+            const newState = {...state}
+            let index = newState.screams.findIndex((scream) => scream.screamId === action.payload.screamId)
+            newState.screams[index] = action.payload
+            if(newState.scream.screamId === action.payload.screamId){
+                newState.scream = {
+                    ...newState.scream,
+                    ...action.payload
+                }
             }
             return {
-                ...state
+                ...newState,
+                loadingLike: false
+            }
+        case LOADING_LIKE:
+            return {
+                ...state,
+                loadingLike: true
             }
         case DELETE_SCREAM:
             let indexToDelete = state.screams.findIndex((scream) => scream.screamId === action.payload);
