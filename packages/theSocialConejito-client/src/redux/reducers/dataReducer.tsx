@@ -61,7 +61,7 @@ export default function(state = initialState, action: Action) : DataState {
             let indexToDelete = state.screams.findIndex((scream) => scream.screamId === action.payload);
             state.screams.splice(indexToDelete, 1);
             return {
-                ...state 
+                ...state
             };
         case POST_SCREAM:
             return {

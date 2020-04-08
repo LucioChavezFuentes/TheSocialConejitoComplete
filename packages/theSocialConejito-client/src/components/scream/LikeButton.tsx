@@ -11,6 +11,8 @@ import {connect} from 'react-redux';
 import {likeScream, unlikeScream} from '../../redux/actions/dataActions';
 import { AppState } from '../../redux/store';
 
+import BounceLoader from "react-spinners/BounceLoader";
+
 
 interface Props {
     user: AppState['user'];
@@ -18,6 +20,7 @@ interface Props {
     unlikeScream: (screamId: string) => void;
     loadingLike: boolean;
     screamId: string;
+    screams: any[];
 
 } 
 
@@ -49,14 +52,27 @@ class LikeButton extends Component<Props> {
             </Link>
             ) : (
                 this.likedScream() ? (
-                    <MyButton tipTitle='Unlike' onClick={this.unlikeScream}>
+                    <MyButton tipTitle='Unlike' onClick={this.unlikeScream} disabled={this.props.loadingLike}>
                         <FavoriteIcon color='primary' />
+                        <div style={{margin: '30px 0'}}>
+                            <BounceLoader
+                                size={15}
+                                color={"#cca353"}
+                                loading={false}
+                            />
+                        </div>
                     </MyButton> ) : (
                     
-                    <MyButton tipTitle='Like' onClick={this.likeScream}>
+                    <MyButton tipTitle='Like' onClick={this.likeScream} disabled={this.props.loadingLike}>
                         <FavoriteBorder color='primary' />
+                        <div style={{margin: '30px 0'}}>
+                            <BounceLoader
+                                size={15}
+                                color={"#cca353"}
+                                loading={false}
+                            />
+                        </div>
                     </MyButton>
-
                 )
             )
             return likeButton;
@@ -65,6 +81,7 @@ class LikeButton extends Component<Props> {
 
 const mapStateToProps = (appState: AppState) => ({
     user: appState.user,
+    screams: appState.data.screams,
     loadingLike: appState.data.loadingLike
 })
 
