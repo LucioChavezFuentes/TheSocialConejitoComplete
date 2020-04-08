@@ -27,7 +27,9 @@ export default function(state = initialState, action: Action) : DataState {
         case SET_SCREAMS:
             return {
                 ...state,
-                screams: action.payload,
+                screams: action.payload.map(scream => {
+                    return { ...scream, loadingLike: false}
+                }),
                 loading: false,
             }
         case SET_SCREAM:
