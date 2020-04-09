@@ -20,7 +20,7 @@ interface Props {
     unlikeScream: (screamId: string) => void;
     loadingLike: boolean;
     screamId: string;
-    screams: any[];
+    
 
 } 
 
@@ -58,7 +58,7 @@ class LikeButton extends Component<Props> {
                             <BounceLoader
                                 size={15}
                                 color={"#cca353"}
-                                loading={false}
+                                loading={this.props.loadingLike}
                             />
                         </div>
                     </MyButton> ) : (
@@ -69,7 +69,7 @@ class LikeButton extends Component<Props> {
                             <BounceLoader
                                 size={15}
                                 color={"#cca353"}
-                                loading={false}
+                                loading={this.props.loadingLike}
                             />
                         </div>
                     </MyButton>
@@ -81,8 +81,6 @@ class LikeButton extends Component<Props> {
 
 const mapStateToProps = (appState: AppState) => ({
     user: appState.user,
-    screams: appState.data.screams,
-    loadingLike: appState.data.loadingLike
 })
 
 const mapActionsToProps = {

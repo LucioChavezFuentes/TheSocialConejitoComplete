@@ -22,7 +22,7 @@ export const loginUser = (userData : UserData, history: History) => (dispatch : 
                 
                 dispatch({
                     type: SET_ERRORS,
-                    payload: err.response.data
+                    payload: err.response ? err.response.data : {general: "Can't connect with your account. Are you connected to Internet?"}
                 })
             });
 };

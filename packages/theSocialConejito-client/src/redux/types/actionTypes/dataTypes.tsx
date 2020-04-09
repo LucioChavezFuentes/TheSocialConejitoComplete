@@ -35,6 +35,7 @@ interface UNLIKE_SCREAM {
 
 interface LOADING_LIKE {
     type: typeof LOADING_LIKE;
+    payload: any
 }
 
 interface DELETE_SCREAM {

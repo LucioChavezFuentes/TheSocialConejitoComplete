@@ -178,7 +178,8 @@ class ScreamDialog extends Component<screamDialogProps, State> {
             likeCount, 
             userImage, 
             userHandle,
-            comments
+            comments,
+            loadingLike
         }, 
             ui : {
                 loading
@@ -215,7 +216,7 @@ class ScreamDialog extends Component<screamDialogProps, State> {
                         {body}
                     </Typography>
 
-                    <LikeButton screamId= {screamId} /> 
+                    <LikeButton screamId= {screamId} loadingLike={loadingLike} /> 
 
                     <span>{`${likeCount} ${isMobile ? "" : "Likes"}` }</span>
 

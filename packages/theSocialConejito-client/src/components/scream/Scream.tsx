@@ -75,7 +75,7 @@ class Scream extends Component<ScreamProps> {
 
     render() {
         const {classes, scream : {
-            userImage, body, createdAt, userHandle, screamId, likeCount, commentCount}, 
+            userImage, body, createdAt, userHandle, screamId, likeCount, commentCount, loadingLike}, 
             user: {authenticated, credentials: { handle }
             }
         } = this.props
@@ -107,7 +107,7 @@ class Scream extends Component<ScreamProps> {
 
                         <Typography variant='body1' > {body} </Typography> 
                         
-                        <LikeButton screamId={screamId} />
+                        <LikeButton screamId={screamId} loadingLike={loadingLike} />
 
                         <span>{`${likeCount} ${isMobile ? "" : "Likes"}` }</span>
 

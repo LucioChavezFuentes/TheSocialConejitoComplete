@@ -7,14 +7,14 @@ interface DataState {
     screams: any[];
     scream: any;
     loading: boolean;
-    loadingLike: boolean;
+
 }
 
 const initialState : DataState = {
     screams: [], 
     scream: {},
     loading: false,
-    loadingLike: false,
+    
 }
 
 export default function(state = initialState, action: Action) : DataState {
@@ -43,7 +43,7 @@ export default function(state = initialState, action: Action) : DataState {
             //it seems the like scream and unlike scream lose the comments[] property in state
             const newState = {...state}
             let index = newState.screams.findIndex((scream) => scream.screamId === action.payload.screamId)
-            newState.screams[index] = action.payload
+            newState.screams[index] = {...action.payload, loadingLike: false}
             if(newState.scream.screamId === action.payload.screamId){
                 newState.scream = {
                     ...newState.scream,
@@ -52,12 +52,17 @@ export default function(state = initialState, action: Action) : DataState {
             }
             return {
                 ...newState,
-                loadingLike: false
             }
         case LOADING_LIKE:
+            //TODO: find the correct scream to change the loadingLike to 'true' 
             return {
                 ...state,
-                loadingLike: true
+                screams: state.screams.map(scream => {
+                    return {
+                        ...scream,
+                        loadingLike: scream.screamId === action.payload ? true : false
+                    }
+                })
             }
         case DELETE_SCREAM:
             let indexToDelete = state.screams.findIndex((scream) => scream.screamId === action.payload);
