@@ -29,6 +29,8 @@ const override = css`
   display: block;
   position: absolute;
   margin: 0 auto;
+  right: 33%;
+  bottom: 36%;
 `;
 
 class LikeButton extends Component<Props> {
@@ -61,7 +63,7 @@ class LikeButton extends Component<Props> {
                 this.likedScream() ? (
                     <MyButton tipTitle='Unlike' onClick={this.unlikeScream} disabled={this.props.loadingLike}>
                         <FavoriteIcon color='primary' />
-                        <div style={{margin: '30px 0'}}>
+                        <div >
                             <BounceLoader
                                 css={override}
                                 size={15}
@@ -73,7 +75,7 @@ class LikeButton extends Component<Props> {
                     
                     <MyButton tipTitle='Like' onClick={this.likeScream} disabled={this.props.loadingLike}>
                         <FavoriteBorder color='primary' />
-                        <div style={{margin: '30px 0'}}>
+                        <div >
                             <BounceLoader
                                 css={override}
                                 size={15}
