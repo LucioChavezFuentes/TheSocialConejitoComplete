@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MyButton from '../../util/MyButton';
 import {Link} from 'react-router-dom';
+import { css } from "@emotion/core";
 
 //MUI Icons
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -23,6 +24,12 @@ interface Props {
     
 
 } 
+
+const override = css`
+  display: block;
+  position: absolute;
+  margin: 0 auto;
+`;
 
 class LikeButton extends Component<Props> {
 
@@ -56,6 +63,7 @@ class LikeButton extends Component<Props> {
                         <FavoriteIcon color='primary' />
                         <div style={{margin: '30px 0'}}>
                             <BounceLoader
+                                css={override}
                                 size={15}
                                 color={"#cca353"}
                                 loading={this.props.loadingLike}
@@ -67,6 +75,7 @@ class LikeButton extends Component<Props> {
                         <FavoriteBorder color='primary' />
                         <div style={{margin: '30px 0'}}>
                             <BounceLoader
+                                css={override}
                                 size={15}
                                 color={"#cca353"}
                                 loading={this.props.loadingLike}
