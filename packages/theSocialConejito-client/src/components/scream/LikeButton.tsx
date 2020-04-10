@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MyButton from '../../util/MyButton';
 import {Link} from 'react-router-dom';
 import { css } from "@emotion/core";
+import { withTheme, Theme } from '@material-ui/core/styles';
 
 //MUI Icons
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -21,7 +22,7 @@ interface Props {
     unlikeScream: (screamId: string) => void;
     loadingLike: boolean;
     screamId: string;
-    
+    theme: Theme
 
 } 
 
@@ -52,7 +53,7 @@ class LikeButton extends Component<Props> {
     };
 
     render() {
-        const {user: {authenticated}} = this.props
+        const {user: {authenticated}, theme} = this.props
         const likeButton = !authenticated ? (
             <Link to='/login'>
                 <MyButton tipTitle='Like'>
@@ -67,7 +68,7 @@ class LikeButton extends Component<Props> {
                             <BounceLoader
                                 css={override}
                                 size={15}
-                                color={"#cca353"}
+                                color={theme.palette.secondary.main}
                                 loading={this.props.loadingLike}
                             />
                         </div>
@@ -79,7 +80,7 @@ class LikeButton extends Component<Props> {
                             <BounceLoader
                                 css={override}
                                 size={15}
-                                color={"#cca353"}
+                                color={theme.palette.primary.light}
                                 loading={this.props.loadingLike}
                             />
                         </div>
@@ -101,4 +102,4 @@ const mapActionsToProps = {
 
 //Always esport defualt a component in Typescript,
 //it seems the Props types in 'imports {} from' doesn't work well. 
-export default connect(mapStateToProps, mapActionsToProps)(LikeButton);
+export default connect(mapStateToProps, mapActionsToProps)(withTheme(LikeButton));
