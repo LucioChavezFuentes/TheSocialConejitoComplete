@@ -39,19 +39,22 @@ export default function(state = initialState, action: Action) : DataState {
             }
         case LIKE_SCREAM:
         case UNLIKE_SCREAM:
-            //TODO: Fix likeScream action and/or reducer when is dispatched on ScreamDialog Open, 
-            //it seems the like scream and unlike scream lose the comments[] property in state
-            const newState = {...state}
-            let index = newState.screams.findIndex((scream) => scream.screamId === action.payload.screamId)
-            newState.screams[index] = {...action.payload, loadingLike: false}
-            if(newState.scream.screamId === action.payload.screamId){
-                newState.scream = {
-                    ...newState.scream,
-                    ...action.payload
-                }
-            }
+            //TODO: Find a way to reduce the complexity to constant in screams []
             return {
-                ...newState,
+                ...state,
+                screams: state.screams.map(scream => {
+                    if(scream.screamId === action.payload.screamId) {
+                        return {
+                            ...action.payload,
+                            loadingLike: false
+                        }
+                    } else {
+                        return {
+                            ...scream
+                        }
+                    }
+                }),
+                scream: state.scream.screamId === action.payload.screamId ? {...state.scream, ...action.payload, loadingLike: false} : {...state.scream}
             }
         case LOADING_LIKE:
             //TODO: find the correct scream to change the loadingLike to 'true' 
@@ -62,7 +65,8 @@ export default function(state = initialState, action: Action) : DataState {
                         ...scream,
                         loadingLike: scream.screamId === action.payload ? true : false
                     }
-                })
+                }),
+                scream: state.scream.screamId === action.payload ? {...state.scream, loadingLike: true} : {...state.scream}
             }
         case DELETE_SCREAM:
             let indexToDelete = state.screams.findIndex((scream) => scream.screamId === action.payload);
