@@ -35,7 +35,7 @@ export default function(state = initialState, action: Action) : DataState {
         case SET_SCREAM:
             return {
                 ...state,
-                scream: action.payload,
+                scream: {...action.payload, loadingLike: false},
             }
         case LIKE_SCREAM:
         case UNLIKE_SCREAM:
