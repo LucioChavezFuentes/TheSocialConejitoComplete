@@ -214,6 +214,9 @@ export const unlikeScream = (req: Request, res: Response) => {
                     .then(() => {
                         return res.json(screamData)
                     })
+                    .catch(err => {
+                        return res.status(404).json({error: "Can't delete a non existent like"})
+                    })
             }
         })
         .catch(error => {
