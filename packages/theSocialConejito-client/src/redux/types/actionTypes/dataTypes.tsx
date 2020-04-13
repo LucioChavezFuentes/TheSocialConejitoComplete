@@ -1,4 +1,6 @@
 
+import {NormalizedSchema} from 'normalizr';
+
 export const SET_SCREAMS = 'SET_SCREAMS';
 export const LOADING_DATA = 'LOADING_DATA';
 export const LIKE_SCREAM = 'LIKE_SCREAM';
@@ -9,46 +11,62 @@ export const POST_SCREAM = 'POST_SCREAM';
 export const SET_SCREAM = 'SET_SCREAM';
 export const SUBMIT_COMMENT = 'SUBMIT_COMMENT';
 
-interface SET_SCREAMS {
-    type: typeof SET_SCREAMS;
-    payload: any[];
+export interface Scream {
+    body: string;
+    commentCount: number;
+    createdAt: string;
+    likeCount: number;
+    userHandle: string;
+    userImage: string;
+    screamId: string;
 }
 
-interface SET_SCREAM {
+export type ScreamSchema = NormalizedSchema<{
+    screams: {
+        [key: string]: Scream;
+    } | undefined;
+}, []>;
+
+export interface SET_SCREAMS {
+    type: typeof SET_SCREAMS;
+    payload: ScreamSchema | [];
+}
+
+export interface SET_SCREAM {
     type: typeof SET_SCREAM;
     payload: any;
 }
 
-interface LOADING_DATA {
+export interface LOADING_DATA {
     type: typeof LOADING_DATA; 
 }
 
-interface LIKE_SCREAM {
+export interface LIKE_SCREAM {
     type: typeof LIKE_SCREAM;
     payload: any
 }
 
-interface UNLIKE_SCREAM {
+export interface UNLIKE_SCREAM {
     type: typeof UNLIKE_SCREAM;
     payload: any
 }
 
-interface LOADING_LIKE {
+export interface LOADING_LIKE {
     type: typeof LOADING_LIKE;
     payload: any
 }
 
-interface DELETE_SCREAM {
+export interface DELETE_SCREAM {
     type: typeof DELETE_SCREAM;
     payload: string;
 }
 
-interface POST_SCREAM {
+export interface POST_SCREAM {
     type: typeof POST_SCREAM;
     payload: any
 }
 
-interface SUBMIT_COMMENT {
+export interface SUBMIT_COMMENT {
     type: typeof SUBMIT_COMMENT;
     payload: any;
 }
