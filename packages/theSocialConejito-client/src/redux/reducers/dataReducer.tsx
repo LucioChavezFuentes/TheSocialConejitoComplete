@@ -1,18 +1,23 @@
-import { SET_SCREAMS, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE} from '../types/actionTypes/dataTypes'
+import { SET_SCREAMS, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, Scream} from '../types/actionTypes/dataTypes'
 
 
 import { Action } from "../types";
 
+
 interface DataState {
-    screams: any[];
+    screams: {
+        [key: string]: Scream
+    };
     scream: any;
+    screamIds: string[];
     loading: boolean;
 
 }
 
 const initialState : DataState = {
-    screams: [], 
+    screams: {}, 
     scream: {},
+    screamIds: [],
     loading: false,
     
 }
@@ -27,9 +32,8 @@ export default function(state = initialState, action: Action) : DataState {
         case SET_SCREAMS:
             return {
                 ...state,
-                screams: action.payload.map(scream => {
-                    return { ...scream, loadingLike: false}
-                }),
+                screams: action.payload.entities.screams,
+                screamIds: action.payload.result,
                 loading: false,
             }
         case SET_SCREAM:
@@ -42,7 +46,16 @@ export default function(state = initialState, action: Action) : DataState {
             //TODO: Find a way to reduce the complexity to constant in screams []
             return {
                 ...state,
-                screams: state.screams.map(scream => {
+                screams: {
+                    ...state.screams,
+                    [action.payload.screamId] : {
+                        ...action.payload,
+                        loadingLike: false
+                    }
+                },
+                scream: state.scream.screamId === action.payload.screamId ? {...state.scream, ...action.payload, loadingLike: false} : {...state.scream}
+                
+                /*state.screams.map(scream => {
                     if(scream.screamId === action.payload.screamId) {
                         return {
                             ...action.payload,
@@ -54,34 +67,58 @@ export default function(state = initialState, action: Action) : DataState {
                         }
                     }
                 }),
-                scream: state.scream.screamId === action.payload.screamId ? {...state.scream, ...action.payload, loadingLike: false} : {...state.scream}
+                scream: state.scream.screamId === action.payload.screamId ? {...state.scream, ...action.payload, loadingLike: false} : {...state.scream}*/
             }
         case LOADING_LIKE:
             //TODO: find the correct scream to change the loadingLike to 'true' 
             return {
                 ...state,
-                screams: state.screams.map(scream => {
-                    return {
-                        ...scream,
-                        loadingLike: scream.screamId === action.payload ? true : false
+                screams: {
+                    ...state.screams,
+                    [action.payload] : {
+                        ...state.screams[action.payload],
+                        loadingLike: true
                     }
-                }),
+                    
+                },
                 scream: state.scream.screamId === action.payload ? {...state.scream, loadingLike: true} : {...state.scream}
             }
         case DELETE_SCREAM:
-            let indexToDelete = state.screams.findIndex((scream) => scream.screamId === action.payload);
+            /*let indexToDelete = state.screams.findIndex((scream) => scream.screamId === action.payload);
             state.screams.splice(indexToDelete, 1);
             return {
                 ...state
-            };
+            };*/ 
+            
+            const { [action.payload]: value, ...withoutScream } = state.screams;
+            return {
+                ...state,
+                screams : {
+                    ...withoutScream
+                    },
+                screamIds: state.screamIds.filter(id => {
+                    return id !== action.payload
+                })
+                }
+                
         case POST_SCREAM:
             return {
+                ...state,
+                screams: {
+                    [action.payload.screamId] : {
+                        ...action.payload
+                    },
+                    ...state.screams,
+                },
+                screamIds: [action.payload.screamId, ...state.screamIds]
+            }
+            /*return {
                 ...state,
                 screams: [
                     action.payload,
                     ...state.screams
                 ]
-            }
+            }*/
         case SUBMIT_COMMENT:
             return {
                 ...state,
@@ -94,5 +131,8 @@ export default function(state = initialState, action: Action) : DataState {
         default:
             return state;
     }
-    
+}
+
+export function getArrayOfScreams(screams : DataState['screams'], screamIds : string[]) {
+    return screamIds.map(id => screams[id])
 }
