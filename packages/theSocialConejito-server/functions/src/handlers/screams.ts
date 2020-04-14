@@ -45,7 +45,8 @@ export const postOneScream = (req: Request, res: Response) => {
         .add(newScream)
         .then( doc => {
             const resScream: any = newScream;
-            resScream.screamId = doc.id
+            resScream.screamId = doc.id;
+            resScream.loadingLike = false;
             res.json(resScream);
         })
         .catch(error => {
