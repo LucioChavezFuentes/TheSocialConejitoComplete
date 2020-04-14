@@ -17,6 +17,7 @@ export const getAllScreams = (req: Request, res: Response) => {
                 screams.push({
                     
                     ...doc.data(),
+                    loadingLike: false,
                     screamId : doc.id,
 
                 })
