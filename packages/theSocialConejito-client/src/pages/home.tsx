@@ -7,6 +7,7 @@ import Profile from '../components/profile/Profile';
 //Redux import 
 import {connect} from 'react-redux';
 import {getScreams} from '../redux/actions/dataActions';
+import {getArrayOfScreams} from '../redux/reducers/dataReducer';
 import { AppState } from '../redux/types';
 
 //Types Interfaces
@@ -15,8 +16,10 @@ interface HomeState {
 }
 
 interface HomeProps {
-    data: AppState['data'];
+    screams: any[];
+    loading: boolean;
     getScreams: () => void;
+
 }
 
 class Home extends Component<HomeProps, HomeState> {
@@ -34,7 +37,7 @@ class Home extends Component<HomeProps, HomeState> {
 
 
     render() {
-        const {loading, screams} = this.props.data
+        const {loading, screams} = this.props;
         let recentScreamsMarkUp : any = !loading ? (
             screams.map( (scream : any) => ( 
             <Scream key={scream.screamId}  scream={scream} />))
@@ -59,7 +62,8 @@ class Home extends Component<HomeProps, HomeState> {
 }
 
 const mapStateToProps = (appState: AppState) => ({
-    data: appState.data
+    screams: getArrayOfScreams(appState.data.screams, appState.data.screamIds),
+    loading: appState.data.loading
 })
 
 export default connect(mapStateToProps, {getScreams})(Home);

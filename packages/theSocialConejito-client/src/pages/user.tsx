@@ -11,11 +11,13 @@ import Grid from '@material-ui/core/Grid';
 //Redux Imports
 import {connect} from 'react-redux'; 
 import {getUserDataAndScreams} from '../redux/actions/dataActions';
+import {getArrayOfScreams} from '../redux/reducers/dataReducer';
 import {AppState} from '../redux/types';
 import { RouteComponentProps } from 'react-router-dom';
 
 interface Props extends RouteComponentProps<{handle: string, screamId: string}> {
-    data: AppState['data'];
+    screams: any[];
+    loading: boolean;
     getUserDataAndScreams: (userHandle: string) => void
 }
 
@@ -53,7 +55,7 @@ class User extends Component<Props, State> {
     }
 
     render() {
-        const {screams, loading} = this.props.data;
+        const {screams, loading} = this.props;
         const {screamIdParams} = this.state;
 
         const screamsMarkUp = loading ? (
@@ -87,7 +89,7 @@ class User extends Component<Props, State> {
                         ) : (
                             <ProfileSkeleton />
                         )
-                    } 
+                    }
                 </Grid>          
             </Grid>
         )
@@ -95,7 +97,8 @@ class User extends Component<Props, State> {
 }
 
 const mapStateToProps = (appState: AppState) => ({
-    data: appState.data
+    screams: getArrayOfScreams(appState.data.screams, appState.data.screamIds),
+    loading: appState.data.loading
 });
 
 export default connect(mapStateToProps, {getUserDataAndScreams})(User);
