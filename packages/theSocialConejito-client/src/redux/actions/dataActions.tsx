@@ -1,27 +1,35 @@
-import { SET_SCREAMS, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE} from '../types/actionTypes/dataTypes'
+import { SET_SCREAMS, SET_SCREAMS_FAILURE, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, ScreamSchema} from '../types/actionTypes/dataTypes'
 import {LOADING_UI, SET_ERRORS, CLEAR_ERRORS, CLOSE_WINDOW_POST_SCREAM, STOP_LOADING_UI} from '../types/actionTypes/uiTypes';
-import {Dispatch} from '../types';
+import {Dispatch,} from '../types';
 import axios from 'axios';
 import { clearErrors } from './uiActions';
+import {normalize} from 'normalizr';
+import * as schema from './schema';
+
 
 interface commentData {
     body: string
 }
 
+
+
 //Get ALL Screams
 export const getScreams = () => (dispacth : Dispatch) => {
     dispacth({type: LOADING_DATA});
 
+
     axios.get('/screams')
         .then( res => {
+            
+            const normalizedScremas : ScreamSchema = normalize(res.data, schema.arrayOfScreams)
             dispacth({
                 type:SET_SCREAMS,
-                payload: res.data
+                payload: normalizedScremas
             })
         })
         .catch((error) => {
             dispacth({
-                type:SET_SCREAMS,
+                type: SET_SCREAMS_FAILURE,
                 payload: [] 
             })
         })
@@ -132,7 +140,7 @@ export const getUserDataAndScreams = (userHandle: string) => (dispatch: Dispatch
         })
         .catch(() => {
             dispatch({
-                type: SET_SCREAMS,
+                type: SET_SCREAMS_FAILURE,
                 payload: []
                 
             })
