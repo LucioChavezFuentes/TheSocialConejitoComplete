@@ -18,7 +18,9 @@
     "deploy:functions": "yarn workspace functions run deploy",
     "logs:social-cnjt-server": "yarn workspace functions run logs",
     "serve:functions": "yarn workspace functions run serve",
-    "update:all": "lerna exec -- yarn upgrade --latest"
+    "update:all": "lerna exec -- yarn upgrade --latest",
+    "deploy:all": "yarn run deploy:functions && yarn run deploy:social-cnjt",
+    "install:functions" : "yarn workspace functions install"
   },
   "husky": {
     "hooks": {
