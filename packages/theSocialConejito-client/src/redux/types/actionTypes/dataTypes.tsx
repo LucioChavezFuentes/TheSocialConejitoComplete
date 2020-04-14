@@ -2,6 +2,7 @@
 import {NormalizedSchema} from 'normalizr';
 
 export const SET_SCREAMS = 'SET_SCREAMS';
+export const SET_SCREAMS_FAILURE = 'SET_SCREAMS_FAILURE';
 export const LOADING_DATA = 'LOADING_DATA';
 export const LIKE_SCREAM = 'LIKE_SCREAM';
 export const UNLIKE_SCREAM = 'UNLIKE_SCREAM';
@@ -18,18 +19,24 @@ export interface Scream {
     likeCount: number;
     userHandle: string;
     userImage: string;
+    loadingLike: boolean;
     screamId: string;
 }
 
 export type ScreamSchema = NormalizedSchema<{
     screams: {
         [key: string]: Scream;
-    } | undefined;
-}, []>;
+    };
+}, string[]>;
 
 export interface SET_SCREAMS {
     type: typeof SET_SCREAMS;
-    payload: ScreamSchema | [];
+    payload: ScreamSchema;
+}
+
+export interface SET_SCREAMS_FAILURE {
+    type: typeof SET_SCREAMS_FAILURE;
+    payload: [];
 }
 
 export interface SET_SCREAM {
@@ -53,7 +60,7 @@ export interface UNLIKE_SCREAM {
 
 export interface LOADING_LIKE {
     type: typeof LOADING_LIKE;
-    payload: any
+    payload: string
 }
 
 export interface DELETE_SCREAM {
@@ -79,6 +86,7 @@ type DataActions = SET_SCREAMS |
     POST_SCREAM |
     SET_SCREAM |
     SUBMIT_COMMENT |
-    LOADING_LIKE
+    LOADING_LIKE |
+    SET_SCREAMS_FAILURE
 
 export default DataActions;
