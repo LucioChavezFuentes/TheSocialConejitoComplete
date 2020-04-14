@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
-
+import getBaseUrl from './util/getBaseUrl';
 
 //Redux
 import { Provider } from 'react-redux';
@@ -38,11 +38,9 @@ const theme = createMuiTheme({
       main: '#e64a19',
     },
   },
-  
-
 })
 
-axios.defaults.baseURL = 'https://us-central1-thesocialmono.cloudfunctions.net/api';
+axios.defaults.baseURL = getBaseUrl();
 
 
 const token = localStorage.FBIdToken
