@@ -7,6 +7,9 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
 //Material Ui Icons
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
@@ -35,6 +38,16 @@ const styles = (theme: Theme) => createStyles({
             right: '5px',
         },
     },
+    progressContainer: {
+        top: '9%',
+        left: '88%',
+        position: 'absolute',
+    },
+    progress : {
+        position: 'absolute'
+      },
+
+      
 });
 
 //TODO: Need Testing for Delete Scream Action
@@ -48,6 +61,10 @@ interface Props extends WithStyles<typeof styles>{
 interface State {
     open: boolean
 }
+
+function Alert(props: AlertProps) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
 class DeleteScream extends Component<Props, State> {
 
@@ -85,19 +102,22 @@ class DeleteScream extends Component<Props, State> {
                     onClose={this.handleClose}
                     fullWidth
                     maxWidth='sm'
-                    >
+                >
                         <div style={{opacity: isDeletingScream ? 0.5 : 1}}>
-                        <DialogTitle>
-                            ¿Segurito que quieres borrar este Scream?
-                        </DialogTitle>
-                        <DialogActions>
-                            <Button onClick={this.handleClose} color='primary'>
-                                Cancel
-                            </Button>
-                            <Button onClick={this.deleteScream} color='secondary'>
-                                Delete
-                            </Button>
-                        </DialogActions>
+                            <DialogTitle>
+                                ¿Segurito que quieres borrar este Scream?
+                            </DialogTitle>
+                            <DialogActions>
+                                <Button onClick={this.handleClose} color='primary'>
+                                    Cancel
+                                </Button>
+                                <Button onClick={this.deleteScream} color='secondary'>
+                                    Delete
+                                </Button>
+                            </DialogActions>
+                        </div>
+                        <div className={classes.progressContainer}>
+                            {isDeletingScream && (<CircularProgress size={50} className={classes.progress} />)}
                         </div>
 
                 </Dialog>
