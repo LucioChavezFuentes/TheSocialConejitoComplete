@@ -5,6 +5,7 @@ const initialState = {
     loading: false,
     errors: {},
     isWindowPostScreamOpen: false,
+    isDeleteScreamAlertOpen: false
 }
 
 export default function( state = initialState, action: Action) {
