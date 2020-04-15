@@ -112,11 +112,21 @@ export default function(state = initialState, action: Action) : DataState {
                     return id !== action.payload
                 }),
                 isDeletingScream: false,
+                deleteScream: {
+                    ...state.deleteScream,
+                    status: SUCCESS,
+                    message: "Your Squeal has been deleted successfully",
+                }
             }
         case DELETE_SCREAM_FAILURE:
             return {
                 ...state,
                 isDeletingScream: false,
+                deleteScream: {
+                    ...state.deleteScream,
+                    status: FAILURE,
+                    message: "Can't delete your Squeal, please try again",
+                }
             }
         case DELETING_SCREAM:
             return {
