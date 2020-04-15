@@ -1,8 +1,11 @@
-import { SET_SCREAMS, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETING_SCREAM, DELETE_SCREAM_SUCCESSFUL, DELETE_SCREAM_FAILURE, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, Scream} from '../types/actionTypes/dataTypes'
+import { SET_SCREAMS, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETING_SCREAM, DELETE_SCREAM_SUCCESS, DELETE_SCREAM_FAILURE, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, Scream} from '../types/actionTypes/dataTypes'
 
 
 import { Action } from "../types";
 
+const SUCCESS = 'SUCCESS';
+const FAILURE = 'NOT_REQUESTED';
+const NOT_REQUESTED ='NOT_REQUESTED'
 
 interface DataState {
     screams: {
@@ -12,7 +15,10 @@ interface DataState {
     screamIds: string[];
     loading: boolean;
     isDeletingScream: boolean;
-
+    deleteScream: {
+        status: typeof SUCCESS | typeof FAILURE | typeof NOT_REQUESTED;
+        message: string;
+    }
 }
 
 const initialState : DataState = {
@@ -20,7 +26,11 @@ const initialState : DataState = {
     scream: {},
     screamIds: [],
     loading: false,
-    isDeletingScream: false
+    isDeletingScream: false,
+    deleteScream: {
+        status: NOT_REQUESTED,
+        message: ''
+    }
     
 }
 
@@ -85,7 +95,7 @@ export default function(state = initialState, action: Action) : DataState {
                 },
                 scream: state.scream.screamId === action.payload ? {...state.scream, loadingLike: true} : {...state.scream}
             }
-        case DELETE_SCREAM_SUCCESSFUL:
+        case DELETE_SCREAM_SUCCESS:
             /*let indexToDelete = state.screams.findIndex((scream) => scream.screamId === action.payload);
             state.screams.splice(indexToDelete, 1);
             return {
