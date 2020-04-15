@@ -23,6 +23,8 @@ import Typography from '@material-ui/core/Typography';
 
 
 const Transition = React.forwardRef<unknown, TransitionProps>(function Transition(props, ref) {
+    //TODO: Why is this line marked as an error?
+    //@ts-ignore
     return <Slide direction="up" ref={ref} {...props} />;
   });
 
