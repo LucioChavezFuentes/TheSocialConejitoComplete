@@ -1,14 +1,21 @@
-import {LOADING_UI, SET_ERRORS, CLEAR_ERRORS, OPEN_WINDOW_POST_SCREAM, CLOSE_WINDOW_POST_SCREAM, STOP_LOADING_UI} from '../types/actionTypes/uiTypes';
+import {LOADING_UI, SET_ERRORS, CLEAR_ERRORS, OPEN_WINDOW_POST_SCREAM, CLOSE_WINDOW_POST_SCREAM, STOP_LOADING_UI, OPEN_DELETE_SCREAM_ALERT, CLOSE_DELETE_SCREAM_ALERT} from '../types/actionTypes/uiTypes';
 import { Action } from '../types';
 
-const initialState = {
+interface UIState {
+    loading: boolean;
+    errors: any;
+    isWindowPostScreamOpen: boolean;
+    isDeleteScreamAlertOpen: boolean;
+}
+
+const initialState : UIState = {
     loading: false,
     errors: {},
     isWindowPostScreamOpen: false,
     isDeleteScreamAlertOpen: false
 }
 
-export default function( state = initialState, action: Action) {
+export default function( state = initialState, action: Action) : UIState {
     switch(action.type){
         case LOADING_UI:
             return {
@@ -37,6 +44,16 @@ export default function( state = initialState, action: Action) {
             return {
                 ...state,
                 isWindowPostScreamOpen: false
+            }
+        case OPEN_DELETE_SCREAM_ALERT:
+            return {
+                ...state,
+                isDeleteScreamAlertOpen: true,
+            }
+        case CLOSE_DELETE_SCREAM_ALERT:
+            return {
+                ...state,
+                isDeleteScreamAlertOpen: false,
             }
         case STOP_LOADING_UI:
             return {
