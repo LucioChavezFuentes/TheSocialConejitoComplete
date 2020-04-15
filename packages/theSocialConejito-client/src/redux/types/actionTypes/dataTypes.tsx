@@ -14,6 +14,10 @@ export const POST_SCREAM = 'POST_SCREAM';
 export const SET_SCREAM = 'SET_SCREAM';
 export const SUBMIT_COMMENT = 'SUBMIT_COMMENT';
 
+export const SUCCESS = 'SUCCESS';
+export const FAILURE = 'FAILURE';
+export const NOT_REQUESTED ='NOT_REQUESTED'
+
 export interface Scream {
     body: string;
     commentCount: number;
