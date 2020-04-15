@@ -7,7 +7,9 @@ export const LOADING_DATA = 'LOADING_DATA';
 export const LIKE_SCREAM = 'LIKE_SCREAM';
 export const UNLIKE_SCREAM = 'UNLIKE_SCREAM';
 export const LOADING_LIKE = 'LOADING_LIKE';
-export const DELETE_SCREAM = 'DELETE_SCREAM';
+export const DELETING_SCREAM = 'DELETING_SCREAM';
+export const DELETE_SCREAM_SUCCESSFUL = 'DELETE_SCREAM_SUCCESSFUL';
+export const DELETE_SCREAM_FAILURE = 'DELETE_SCREAM_FAILURE';
 export const POST_SCREAM = 'POST_SCREAM';
 export const SET_SCREAM = 'SET_SCREAM';
 export const SUBMIT_COMMENT = 'SUBMIT_COMMENT';
@@ -63,9 +65,17 @@ export interface LOADING_LIKE {
     payload: string
 }
 
-export interface DELETE_SCREAM {
-    type: typeof DELETE_SCREAM;
+export interface DELETING_SCREAM {
+    type: typeof DELETING_SCREAM;
+}
+
+export interface DELETE_SCREAM_SUCCESSFUL {
+    type: typeof DELETE_SCREAM_SUCCESSFUL;
     payload: string;
+}
+
+export interface DELETE_SCREAM_FAILURE {
+    type: typeof DELETE_SCREAM_FAILURE;
 }
 
 export interface POST_SCREAM {
@@ -82,7 +92,9 @@ type DataActions = SET_SCREAMS |
     LOADING_DATA | 
     LIKE_SCREAM | 
     UNLIKE_SCREAM | 
-    DELETE_SCREAM |
+    DELETING_SCREAM |
+    DELETE_SCREAM_SUCCESSFUL |
+    DELETE_SCREAM_FAILURE |
     POST_SCREAM |
     SET_SCREAM |
     SUBMIT_COMMENT |

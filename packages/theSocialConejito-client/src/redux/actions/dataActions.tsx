@@ -1,4 +1,4 @@
-import { SET_SCREAMS, SET_SCREAMS_FAILURE, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, ScreamSchema} from '../types/actionTypes/dataTypes'
+import { SET_SCREAMS, SET_SCREAMS_FAILURE, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM_SUCCESSFUL, DELETING_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, ScreamSchema, DELETE_SCREAM_FAILURE} from '../types/actionTypes/dataTypes'
 import {LOADING_UI, SET_ERRORS, CLEAR_ERRORS, CLOSE_WINDOW_POST_SCREAM, STOP_LOADING_UI} from '../types/actionTypes/uiTypes';
 import {Dispatch,} from '../types';
 import axios from 'axios';
@@ -120,13 +120,20 @@ export const submitComment = (screamId: string, commentData: commentData) => (di
 
 //Delete Scream
 export const deleteScream = (screamId: string) => (dispatch: Dispatch) => {
+    dispatch({type:DELETING_SCREAM})
+    
     axios.delete(`/scream/${screamId}`)
         .then(() => {
             dispatch({
-                type: DELETE_SCREAM, 
+                type: DELETE_SCREAM_SUCCESSFUL, 
                 payload: screamId})
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            dispatch({
+                type: DELETE_SCREAM_FAILURE
+            })
+            console.log(error)
+        })
 };
 
 export const getUserDataAndScreams = (userHandle: string) => (dispatch: Dispatch) => {

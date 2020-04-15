@@ -1,4 +1,4 @@
-import { SET_SCREAMS, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, Scream} from '../types/actionTypes/dataTypes'
+import { SET_SCREAMS, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETING_SCREAM, DELETE_SCREAM_SUCCESSFUL, DELETE_SCREAM_FAILURE, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, Scream} from '../types/actionTypes/dataTypes'
 
 
 import { Action } from "../types";
@@ -11,6 +11,7 @@ interface DataState {
     scream: any;
     screamIds: string[];
     loading: boolean;
+    isDeletingScream: boolean;
 
 }
 
@@ -19,6 +20,7 @@ const initialState : DataState = {
     scream: {},
     screamIds: [],
     loading: false,
+    isDeletingScream: false
     
 }
 
@@ -83,7 +85,7 @@ export default function(state = initialState, action: Action) : DataState {
                 },
                 scream: state.scream.screamId === action.payload ? {...state.scream, loadingLike: true} : {...state.scream}
             }
-        case DELETE_SCREAM:
+        case DELETE_SCREAM_SUCCESSFUL:
             /*let indexToDelete = state.screams.findIndex((scream) => scream.screamId === action.payload);
             state.screams.splice(indexToDelete, 1);
             return {
@@ -98,8 +100,19 @@ export default function(state = initialState, action: Action) : DataState {
                     },
                 screamIds: state.screamIds.filter(id => {
                     return id !== action.payload
-                })
-                }
+                }),
+                isDeletingScream: false,
+            }
+        case DELETE_SCREAM_FAILURE:
+            return {
+                ...state,
+                isDeletingScream: false,
+            }
+        case DELETING_SCREAM:
+            return {
+                ...state,
+                isDeletingScream: true
+            }
                 
         case POST_SCREAM:
             return {
