@@ -3,6 +3,8 @@ export const LOADING_UI = 'LOADING_UI';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const OPEN_WINDOW_POST_SCREAM = 'OPEN_WINDOW_POST_SCREAM';
 export const CLOSE_WINDOW_POST_SCREAM = 'CLOSE_WINDOW_POST_SCREAM';
+export const OPEN_DELETE_SCREAM_ALERT = 'OPEN__DELETE_SCREAM_ALERT';
+export const CLOSE_DELETE_SCREAM_ALERT = 'CLOSE__DELETE_SCREAM_ALERT';
 export const STOP_LOADING_UI = 'STOP_LOADING_UI';
 
 export interface SET_ERRORS {
@@ -24,6 +26,14 @@ export interface OPEN_WINDOW_POST_SCREAM {
 
 export interface CLOSE_WINDOW_POST_SCREAM {
     type: typeof CLOSE_WINDOW_POST_SCREAM
+}
+
+export interface OPEN_DELETE_SCREAM_ALERT {
+    type: typeof OPEN_DELETE_SCREAM_ALERT 
+}
+
+export interface CLOSE_DELETE_SCREAM_ALERT {
+    type: typeof CLOSE_DELETE_SCREAM_ALERT
 }
 
 export interface STOP_LOADING_UI{
