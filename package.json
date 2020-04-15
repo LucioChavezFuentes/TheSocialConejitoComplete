@@ -18,6 +18,7 @@
     "deploy:functions": "yarn workspace functions run deploy",
     "logs:social-cnjt-server": "yarn workspace functions run logs",
     "serve:functions": "yarn workspace functions run serve",
+    "start:all-local-social-cnjt": "yarn run start:social-cnjt && yarn run serve:functions",
     "update:all": "lerna exec -- yarn upgrade --latest",
     "deploy:all": "yarn run deploy:functions && yarn run deploy:social-cnjt",
     "install:functions" : "yarn workspace functions install"
