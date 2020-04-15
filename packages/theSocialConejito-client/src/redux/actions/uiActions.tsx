@@ -1,5 +1,5 @@
 
-import {CLEAR_ERRORS, CLOSE_WINDOW_POST_SCREAM, OPEN_WINDOW_POST_SCREAM} from '../types/actionTypes/uiTypes';
+import {CLEAR_ERRORS, CLOSE_WINDOW_POST_SCREAM, OPEN_WINDOW_POST_SCREAM, CLOSE_DELETE_SCREAM_ALERT, OPEN_DELETE_SCREAM_ALERT} from '../types/actionTypes/uiTypes';
 import {Dispatch} from '../types';
 
 //Clear Errors
@@ -14,4 +14,12 @@ export const openWindowPostScream = () => (dispatch: Dispatch) => {
 
 export const closeWindowPostScream = () => (dispatch: Dispatch) => {
     dispatch({type: CLOSE_WINDOW_POST_SCREAM});
+}
+
+export const closeDeleteScreamAlert = () => (dispatch: Dispatch) => {
+    dispatch({type: CLOSE_DELETE_SCREAM_ALERT})
+}
+
+export const openDeleteScreamAlert = () => (dispatch: Dispatch) => {
+    dispatch({type: OPEN_DELETE_SCREAM_ALERT})
 }

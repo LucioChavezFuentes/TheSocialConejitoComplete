@@ -17,7 +17,9 @@ import DeleteOutline from '@material-ui/icons/DeleteOutline';
 //Redux Imports
 import {connect} from 'react-redux';
 import {deleteScream} from '../../redux/actions/dataActions';
+import {closeDeleteScreamAlert} from '../../redux/actions/uiActions';
 import { AppState } from '../../redux/types';
+import {SUCCESS} from '../../redux/types/actionTypes/dataTypes'
 
 const microMobile = 270;
 
@@ -51,15 +53,19 @@ const styles = (theme: Theme) => createStyles({
 });
 
 //TODO: Need Testing for Delete Scream Action
-
+//TODO: Fix alert
 interface Props extends WithStyles<typeof styles>{
     screamId: string;
     deleteScream: (screamId: string) => void;
     isDeletingScream: boolean;
+    deleteScreamState: AppState['data']['deleteScream'];
+    isDeleteScreamAlertOpen: boolean;
+    closeDeleteScreamAlert: () => void;
 }
 
 interface State {
-    open: boolean
+    open: boolean,
+    openAlert: boolean,
 }
 
 function Alert(props: AlertProps) {
@@ -69,7 +75,8 @@ function Alert(props: AlertProps) {
 class DeleteScream extends Component<Props, State> {
 
     state: State = {
-        open: false
+        open: false,
+        openAlert: false
     }
 
     handleOpen = () => {
@@ -84,14 +91,30 @@ class DeleteScream extends Component<Props, State> {
         })
     }
 
+    shouldOpenAlert = (status: string) => {
+
+    }
+
+    handleCloseAlert = (event?: React.SyntheticEvent, reason?: string) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        this.props.closeDeleteScreamAlert()
+      };
+
     deleteScream = () => {
         this.props.deleteScream(this.props.screamId);
         this.setState({
             open: false
         })
     }
+
+    getSeverity = (status: string) => {
+        return status === SUCCESS ? 'success' : 'error'
+    }
     render() {
-        const {classes, isDeletingScream} = this.props;
+        const {classes, isDeletingScream, deleteScreamState, isDeleteScreamAlertOpen} = this.props;
         return (
             <Fragment>
                 <MyButton tipTitle='Delete Scream' onClick={this.handleOpen} btnClassName={classes.deleteButton}>
@@ -121,15 +144,22 @@ class DeleteScream extends Component<Props, State> {
                         </div>
 
                 </Dialog>
+                <Snackbar open={isDeleteScreamAlertOpen} autoHideDuration={5000} onClose={this.handleCloseAlert}>
+                    <Alert onClose={this.handleCloseAlert} severity={this.getSeverity(deleteScreamState.status)}>
+                        {deleteScreamState.message}
+                    </Alert>
+                </Snackbar>
             </Fragment>
         )
     }
 }
 
 const mapStateToProps = (appState: AppState) => ({
-    isDeletingScream : appState.data.isDeletingScream
+    isDeletingScream : appState.data.isDeletingScream,
+    deleteScreamState: appState.data.deleteScream,
+    isDeleteScreamAlertOpen: appState.ui.isDeleteScreamAlertOpen,
 })
 
 
-export default connect(mapStateToProps, {deleteScream})(withStyles(styles)(DeleteScream));
+export default connect(mapStateToProps, {deleteScream, closeDeleteScreamAlert})(withStyles(styles)(DeleteScream));
 

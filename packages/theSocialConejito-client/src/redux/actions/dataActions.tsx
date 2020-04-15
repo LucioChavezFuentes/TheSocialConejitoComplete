@@ -1,5 +1,5 @@
 import { SET_SCREAMS, SET_SCREAMS_FAILURE, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM_SUCCESS, DELETING_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, ScreamSchema, DELETE_SCREAM_FAILURE} from '../types/actionTypes/dataTypes'
-import {LOADING_UI, SET_ERRORS, CLEAR_ERRORS, CLOSE_WINDOW_POST_SCREAM, STOP_LOADING_UI} from '../types/actionTypes/uiTypes';
+import {LOADING_UI, SET_ERRORS, CLEAR_ERRORS, CLOSE_WINDOW_POST_SCREAM, STOP_LOADING_UI, OPEN_DELETE_SCREAM_ALERT} from '../types/actionTypes/uiTypes';
 import {Dispatch,} from '../types';
 import axios from 'axios';
 import { clearErrors } from './uiActions';
@@ -127,11 +127,13 @@ export const deleteScream = (screamId: string) => (dispatch: Dispatch) => {
             dispatch({
                 type: DELETE_SCREAM_SUCCESS, 
                 payload: screamId})
+            dispatch({type: OPEN_DELETE_SCREAM_ALERT})
         })
         .catch(error => {
             dispatch({
                 type: DELETE_SCREAM_FAILURE
             })
+            dispatch({type: OPEN_DELETE_SCREAM_ALERT})
             console.log(error)
         })
 };
