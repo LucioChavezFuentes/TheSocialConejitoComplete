@@ -14,6 +14,7 @@ import DeleteOutline from '@material-ui/icons/DeleteOutline';
 //Redux Imports
 import {connect} from 'react-redux';
 import {deleteScream} from '../../redux/actions/dataActions';
+import { AppState } from '../../redux/types';
 
 const microMobile = 270;
 
@@ -41,6 +42,7 @@ const styles = (theme: Theme) => createStyles({
 interface Props extends WithStyles<typeof styles>{
     screamId: string;
     deleteScream: (screamId: string) => void;
+    isDeletingScream: boolean;
 }
 
 interface State {
@@ -72,7 +74,7 @@ class DeleteScream extends Component<Props, State> {
         })
     }
     render() {
-        const {classes} = this.props;
+        const {classes, isDeletingScream} = this.props;
         return (
             <Fragment>
                 <MyButton tipTitle='Delete Scream' onClick={this.handleOpen} btnClassName={classes.deleteButton}>
@@ -83,6 +85,7 @@ class DeleteScream extends Component<Props, State> {
                     onClose={this.handleClose}
                     fullWidth
                     maxWidth='sm'
+                    style={{opacity: isDeletingScream ? 0.5 : 0}}
                     >
                         <DialogTitle>
                             ¿Segurito que quieres borrar este Scream?
@@ -102,6 +105,10 @@ class DeleteScream extends Component<Props, State> {
     }
 }
 
+const mapStateToProps = (appState: AppState) => ({
+    isDeletingScream : appState.data.isDeletingScream
+})
 
-export default connect(null, {deleteScream})(withStyles(styles)(DeleteScream));
+
+export default connect(mapStateToProps, {deleteScream})(withStyles(styles)(DeleteScream));
 
