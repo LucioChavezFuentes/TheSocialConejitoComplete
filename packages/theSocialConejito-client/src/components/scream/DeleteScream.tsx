@@ -81,12 +81,12 @@ class DeleteScream extends Component<Props, State> {
                     <DeleteOutline color='secondary' />
                 </MyButton>
                 <Dialog 
-                    open={this.state.open}
+                    open={this.state.open || isDeletingScream}
                     onClose={this.handleClose}
                     fullWidth
                     maxWidth='sm'
-                    style={{opacity: isDeletingScream ? 0.5 : 0}}
                     >
+                        <div style={{opacity: isDeletingScream ? 0.5 : 1}}>
                         <DialogTitle>
                             ¿Segurito que quieres borrar este Scream?
                         </DialogTitle>
@@ -98,6 +98,7 @@ class DeleteScream extends Component<Props, State> {
                                 Delete
                             </Button>
                         </DialogActions>
+                        </div>
 
                 </Dialog>
             </Fragment>
