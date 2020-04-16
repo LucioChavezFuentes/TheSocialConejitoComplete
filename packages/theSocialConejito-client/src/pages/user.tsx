@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component} from 'react'
 import axios from 'axios';
 import Scream from '../components/scream/Scream';
 import StaticProfile from '../components/profile/StaticProfile';
@@ -14,6 +14,7 @@ import {getUserDataAndScreams} from '../redux/actions/dataActions';
 import {getArrayOfScreams} from '../redux/reducers/dataReducer';
 import {AppState} from '../redux/types';
 import { RouteComponentProps } from 'react-router-dom';
+
 
 interface Props extends RouteComponentProps<{handle: string, screamId: string}> {
     screams: any[];
@@ -48,6 +49,22 @@ class User extends Component<Props, State> {
                 })
             })
             .catch(error => console.log(error))
+    }
+
+    componentDidUpdate(prevProps:Props, prevState: State) {
+        const handle = this.props.match.params.handle;
+        const prevHandle = prevProps.match.params.handle;
+
+        if(prevHandle !== handle){
+            this.props.getUserDataAndScreams(handle)
+            axios.get(`/user/${handle}`)
+                .then( res => {
+                    this.setState({
+                        profile: res.data.user
+                    })
+                })
+                .catch(error => console.log(error))
+        }
     }
 
     getSpacing = () => {
