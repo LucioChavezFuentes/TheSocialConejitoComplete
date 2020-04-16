@@ -6,7 +6,7 @@ import  * as Busboy from 'busboy';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as os from 'os'; 
-import { Request, Response } from 'express';
+//import { Request, Response } from 'express';
 
 
 firebase.initializeApp(fbConfig)
@@ -101,7 +101,7 @@ export const login = (req : any, res: any) => {
 
 //Add User Details
 
-export const addUserDetails = (req: Request, res: Response) => {
+export const addUserDetails = (req: any, res: any) => {
     const userDetails = reduceUserDetails(req.body);
 
     db.doc(`/users/${req.user.handle}`).update(userDetails)
@@ -115,7 +115,7 @@ export const addUserDetails = (req: Request, res: Response) => {
 };
 
 //Get any user's details
-export const getUserDetails = (req: Request, res: Response) => {
+export const getUserDetails = (req: any, res: any) => {
     const userData : any = {};
     db.doc(`/users/${req.params.handle}`).get()
         .then((docUser) => {
@@ -135,6 +135,7 @@ export const getUserDetails = (req: Request, res: Response) => {
                 userData.screams.push({
                     
                     ...doc.data(),
+                    loadingLike: false,
                     screamId: doc.id
                 })
             })
@@ -243,7 +244,7 @@ export const uploadImage = (req: any, res:any) => {
     busboy.end(req.rawBody)
 };
 
-export const markNotificationsRead = (req: Request, res: Response) => {
+export const markNotificationsRead = (req: any, res: any) => {
     const batch = db.batch();
     req.body.forEach((notificationId: string) => {
         const notification = db.doc(`/notifications/${notificationId}`)

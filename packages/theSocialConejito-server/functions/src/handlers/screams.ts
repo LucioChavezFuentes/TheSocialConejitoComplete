@@ -1,12 +1,12 @@
 import  {db}  from '../util/admin'
-import { Response, Request } from 'express';
+//import : any, Request } from 'express';
 
 
 /*interface postOneScreamRequest extends Request {
     user: any
 }*/
 
-export const getAllScreams = (req: Request, res: Response) => {
+export const getAllScreams = (req: any, res: any) => {
     db.collection('screams')
         .orderBy('createdAt', 'desc')
         .get()
@@ -28,7 +28,7 @@ export const getAllScreams = (req: Request, res: Response) => {
         .catch( error => console.error(error))
 };
 
-export const postOneScream = (req: Request, res: Response) => {
+export const postOneScream = (req: any, res: any) => {
     if (req.body.body.trim() === '') {
          res.status(400).json({ body: 'Body must not be empty' });
          return
@@ -86,7 +86,7 @@ export const getScream = (req: any, res: any) => {
 };
 
 //Post One Comment on Scream
-export const postCommentOnScream = (req: Request, res: Response) => {
+export const postCommentOnScream = (req: any, res: any) => {
     if(req.body.body.trim() === ''){
         res.status(400).json({comment: 'Must not be empty'});
         return
@@ -132,7 +132,7 @@ export const postCommentOnScream = (req: Request, res: Response) => {
 };
 
 // like on scream, params: { screamId }
-export const likeScream = (req: Request, res: Response) => {
+export const likeScream = (req: any, res: any) => {
 
     const likeDocument = db.collection('likes').where('userHandle', '==', req.user.handle)
         .where('screamId', '==', req.params.screamId).limit(1);
@@ -180,7 +180,7 @@ export const likeScream = (req: Request, res: Response) => {
 }
 
 //Unlike on scream
-export const unlikeScream = (req: Request, res: Response) => {
+export const unlikeScream = (req: any, res: any) => {
 
     const likeDocument = db.collection('likes').where('userHandle', '==', req.user.handle)
         .where('screamId', '==', req.params.screamId).limit(1);
@@ -228,7 +228,7 @@ export const unlikeScream = (req: Request, res: Response) => {
 };
 
 //Delete Scream, Params= {screamId: string}
-export const deleteScream = (req: Request, res: any) => {
+export const deleteScream = (req: any, res: any) => {
 
     const documentScream = db.doc(`/screams/${req.params.screamId}`)
 
