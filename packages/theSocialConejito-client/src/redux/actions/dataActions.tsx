@@ -32,6 +32,7 @@ export const getScreams = () => (dispacth : Dispatch) => {
                 type: SET_SCREAMS_FAILURE,
                 payload: [] 
             })
+            console.error(error)
         })
 };
 
@@ -142,17 +143,21 @@ export const getUserDataAndScreams = (userHandle: string) => (dispatch: Dispatch
     dispatch({type: LOADING_DATA});
     axios.get(`/user/${userHandle}`)
         .then(res => {
+            //TODO: Fix the loading like property in backend for this end point
+            //TODO: Find a way to add a test to redux thunks dispatch
+            const normalizedScremas : ScreamSchema = normalize(res.data.screams, schema.arrayOfScreams)
             dispatch({
                 type:SET_SCREAMS,
-                payload: res.data.screams
+                payload: normalizedScremas
             })
         })
-        .catch(() => {
+        .catch((error) => {
             dispatch({
                 type: SET_SCREAMS_FAILURE,
                 payload: []
                 
             })
+            console.error(error)
         } )
 }
 
