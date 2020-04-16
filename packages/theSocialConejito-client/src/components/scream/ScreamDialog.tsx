@@ -125,7 +125,7 @@ class ScreamDialog extends Component<screamDialogProps, State> {
     }
 
     componentDidMount() {
-        if(this.props.openDialog){
+        if(this.props.openDialog || this.props.match.params.screamId === this.props.screamId){
             this.handleOpen()
         }
     }
