@@ -1,6 +1,6 @@
-import { SET_SCREAMS, SET_SCREAMS_FAILURE, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM_SUCCESS, DELETING_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, ScreamSchema, DELETE_SCREAM_FAILURE} from '../types/actionTypes/dataTypes'
+import { SET_SCREAMS, SET_SCREAMS_FAILURE, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM_SUCCESS, DELETING_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, ScreamSchema, DELETE_SCREAM_FAILURE, CANCEL_SET_SCREAM} from '../types/actionTypes/dataTypes'
 import {LOADING_UI, SET_ERRORS, CLEAR_ERRORS, CLOSE_WINDOW_POST_SCREAM, STOP_LOADING_UI, OPEN_DELETE_SCREAM_ALERT} from '../types/actionTypes/uiTypes';
-import {Dispatch,} from '../types';
+import {Dispatch, AppState} from '../types';
 import axios from 'axios';
 import { clearErrors } from './uiActions';
 import {normalize} from 'normalizr';
@@ -37,21 +37,26 @@ export const getScreams = () => (dispacth : Dispatch) => {
 };
 
 //Get One Scream
-export const getScream = (screamId: string) => (dispatch: Dispatch) => {
+export const getScream = (screamId: string) => (dispatch: Dispatch, getState: () => AppState ) => {
     dispatch({type: LOADING_UI});
 
     axios.get(`/scream/${screamId}`)
         .then( res => {
-            dispatch({
-                type: SET_SCREAM,
-                payload: res.data
-            })
+            const state = getState()
+            if(!state.ui.isSetScreamCanceled){
+                dispatch({
+                    type: SET_SCREAM,
+                    payload: res.data
+                })
+            }
+            
             dispatch({type: STOP_LOADING_UI})
         })
         .catch(error => {
             console.log(error)
         });
 };
+
 
 //PostScream
 export const postScream = (newScream: any) => (dispatch: Dispatch) => {

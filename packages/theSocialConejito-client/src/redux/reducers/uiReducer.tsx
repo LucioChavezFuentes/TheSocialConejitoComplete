@@ -1,4 +1,4 @@
-import {LOADING_UI, SET_ERRORS, CLEAR_ERRORS, OPEN_WINDOW_POST_SCREAM, CLOSE_WINDOW_POST_SCREAM, STOP_LOADING_UI, OPEN_DELETE_SCREAM_ALERT, CLOSE_DELETE_SCREAM_ALERT} from '../types/actionTypes/uiTypes';
+import {LOADING_UI, SET_ERRORS, CLEAR_ERRORS, OPEN_WINDOW_POST_SCREAM, CLOSE_WINDOW_POST_SCREAM, STOP_LOADING_UI, OPEN_DELETE_SCREAM_ALERT, CLOSE_DELETE_SCREAM_ALERT, CANCEL_SET_SCREAM} from '../types/actionTypes/uiTypes';
 import { Action } from '../types';
 
 interface UIState {
@@ -6,13 +6,15 @@ interface UIState {
     errors: any;
     isWindowPostScreamOpen: boolean;
     isDeleteScreamAlertOpen: boolean;
+    isSetScreamCanceled: boolean,
 }
 
 const initialState : UIState = {
     loading: false,
     errors: {},
     isWindowPostScreamOpen: false,
-    isDeleteScreamAlertOpen: false
+    isDeleteScreamAlertOpen: false,
+    isSetScreamCanceled: false,
 }
 
 export default function( state = initialState, action: Action) : UIState {
@@ -21,7 +23,7 @@ export default function( state = initialState, action: Action) : UIState {
             return {
                 ...state,
                 loading: true,
-
+                isSetScreamCanceled: false,
             }
         case SET_ERRORS:
             return {
@@ -55,6 +57,11 @@ export default function( state = initialState, action: Action) : UIState {
                 ...state,
                 isDeleteScreamAlertOpen: false,
             }
+        case CANCEL_SET_SCREAM:
+                return {
+                    ...state,
+                    isSetScreamCanceled: true
+                }
         case STOP_LOADING_UI:
             return {
                 ...state,

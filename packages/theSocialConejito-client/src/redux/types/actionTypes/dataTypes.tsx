@@ -12,6 +12,7 @@ export const DELETE_SCREAM_SUCCESS = 'DELETE_SCREAM_SUCCESS';
 export const DELETE_SCREAM_FAILURE = 'DELETE_SCREAM_FAILURE';
 export const POST_SCREAM = 'POST_SCREAM';
 export const SET_SCREAM = 'SET_SCREAM';
+export const CANCEL_SET_SCREAM = 'CANCEL_SET_SCREAM';
 export const SUBMIT_COMMENT = 'SUBMIT_COMMENT';
 
 export const SUCCESS = 'SUCCESS';
@@ -43,6 +44,10 @@ export interface SET_SCREAMS {
 export interface SET_SCREAMS_FAILURE {
     type: typeof SET_SCREAMS_FAILURE;
     payload: [];
+}
+
+export interface CANCEL_SET_SCREAM {
+    type: typeof CANCEL_SET_SCREAM;
 }
 
 export interface SET_SCREAM {
@@ -101,6 +106,7 @@ type DataActions = SET_SCREAMS |
     DELETE_SCREAM_FAILURE |
     POST_SCREAM |
     SET_SCREAM |
+    CANCEL_SET_SCREAM |
     SUBMIT_COMMENT |
     LOADING_LIKE |
     SET_SCREAMS_FAILURE

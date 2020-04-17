@@ -17,7 +17,7 @@ interface DataState {
     deleteScream: {
         status: typeof SUCCESS | typeof FAILURE | typeof NOT_REQUESTED;
         message: string;
-    }
+    };
 }
 
 const initialState : DataState = {
@@ -29,7 +29,8 @@ const initialState : DataState = {
     deleteScream: {
         status: NOT_REQUESTED,
         message: ''
-    }
+    },
+    
     
 }
 

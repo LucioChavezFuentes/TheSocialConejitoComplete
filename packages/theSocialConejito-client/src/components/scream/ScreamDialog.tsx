@@ -23,7 +23,7 @@ import ChatIcon from '@material-ui/icons/Chat';
 //Redux Imports
 import {connect} from 'react-redux';
 import {getScream} from '../../redux/actions/dataActions';
-import {clearErrors} from '../../redux/actions/uiActions';
+import {clearErrors, cancelSetScream} from '../../redux/actions/uiActions';
 import { AppState } from '../../redux/types';
 
 //const microMobile = 270;
@@ -99,6 +99,7 @@ interface Props extends WithStyles<typeof styles>{
     getScream: (screamId: string) => void;
     clearErrors: () => void;
     openDialog?: boolean;
+    cancelSetScream: () => void;
 }
 
 interface State {
@@ -163,6 +164,9 @@ class ScreamDialog extends Component<screamDialogProps, State> {
 
     handleClose = () => {
         const loading = this.props.ui.loading;
+        if(loading){
+            this.props.cancelSetScream()
+        }
         this.props.history.push(this.state.oldPath)
         //window.history.pushState(null, '', this.state.oldPath);
 
@@ -268,4 +272,4 @@ const mapStateToProps = (appState: AppState) => ({
 })
 
 
-export default connect(mapStateToProps, {getScream, clearErrors})(withStyles(styles)(withRouter(ScreamDialog)))
+export default connect(mapStateToProps, {getScream, clearErrors, cancelSetScream})(withStyles(styles)(withRouter(ScreamDialog)))
