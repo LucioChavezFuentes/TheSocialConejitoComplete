@@ -162,6 +162,7 @@ class ScreamDialog extends Component<screamDialogProps, State> {
     }
 
     handleClose = () => {
+        const loading = this.props.ui.loading;
         this.props.history.push(this.state.oldPath)
         //window.history.pushState(null, '', this.state.oldPath);
 
@@ -178,7 +179,7 @@ class ScreamDialog extends Component<screamDialogProps, State> {
             likeCount, 
             userImage, 
             userHandle,
-            comments,
+            comments = [],
             loadingLike
         }, 
             ui : {
@@ -232,7 +233,7 @@ class ScreamDialog extends Component<screamDialogProps, State> {
                 <CommentForm screamId={screamId}  />
 
                 <div className={classes.commentsContainer}>
-                    <Comments comments={comments}  />
+                    <Comments comments={comments || []}  />
                 </div> 
 
             </Grid>
