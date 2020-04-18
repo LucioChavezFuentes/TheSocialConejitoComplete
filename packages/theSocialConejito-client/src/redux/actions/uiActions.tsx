@@ -1,8 +1,6 @@
 
-import {CLEAR_ERRORS, CLOSE_WINDOW_POST_SCREAM, OPEN_WINDOW_POST_SCREAM, CLOSE_DELETE_SCREAM_ALERT, OPEN_DELETE_SCREAM_ALERT, CANCEL_SET_SCREAM} from '../types/actionTypes/uiTypes';
+import {CLEAR_ERRORS, CLOSE_WINDOW_POST_SCREAM, OPEN_WINDOW_POST_SCREAM, CLOSE_DELETE_SCREAM_ALERT, OPEN_DELETE_SCREAM_ALERT} from '../types/actionTypes/uiTypes';
 import {Dispatch} from '../types';
-import { CancelTokenSource } from 'axios';
-
 
 //Clear Errors
 export const clearErrors = () => (dispatch: Dispatch) => {
