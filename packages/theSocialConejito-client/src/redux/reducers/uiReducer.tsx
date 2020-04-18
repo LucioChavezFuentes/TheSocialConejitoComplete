@@ -6,7 +6,6 @@ interface UIState {
     errors: any;
     isWindowPostScreamOpen: boolean;
     isDeleteScreamAlertOpen: boolean;
-    isSetScreamCanceled: boolean,
 }
 
 const initialState : UIState = {
@@ -14,7 +13,7 @@ const initialState : UIState = {
     errors: {},
     isWindowPostScreamOpen: false,
     isDeleteScreamAlertOpen: false,
-    isSetScreamCanceled: false,
+    
 }
 
 export default function( state = initialState, action: Action) : UIState {
@@ -23,7 +22,6 @@ export default function( state = initialState, action: Action) : UIState {
             return {
                 ...state,
                 loading: true,
-                isSetScreamCanceled: false,
             }
         case SET_ERRORS:
             return {
@@ -60,7 +58,6 @@ export default function( state = initialState, action: Action) : UIState {
         case CANCEL_SET_SCREAM:
                 return {
                     ...state,
-                    isSetScreamCanceled: true
                 }
         case STOP_LOADING_UI:
             return {

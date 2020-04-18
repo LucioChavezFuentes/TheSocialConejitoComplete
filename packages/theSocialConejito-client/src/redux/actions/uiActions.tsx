@@ -1,6 +1,8 @@
 
 import {CLEAR_ERRORS, CLOSE_WINDOW_POST_SCREAM, OPEN_WINDOW_POST_SCREAM, CLOSE_DELETE_SCREAM_ALERT, OPEN_DELETE_SCREAM_ALERT, CANCEL_SET_SCREAM} from '../types/actionTypes/uiTypes';
 import {Dispatch} from '../types';
+import { CancelTokenSource } from 'axios';
+
 
 //Clear Errors
 export const clearErrors = () => (dispatch: Dispatch) => {
@@ -22,8 +24,4 @@ export const closeDeleteScreamAlert = () => (dispatch: Dispatch) => {
 
 export const openDeleteScreamAlert = () => (dispatch: Dispatch) => {
     dispatch({type: OPEN_DELETE_SCREAM_ALERT})
-}
-
-export const cancelSetScream = () => (dispatch: Dispatch) => {
-    dispatch({type: CANCEL_SET_SCREAM})
 }

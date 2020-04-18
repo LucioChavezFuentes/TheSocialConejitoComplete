@@ -1,7 +1,7 @@
 import { SET_SCREAMS, SET_SCREAMS_FAILURE, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM_SUCCESS, DELETING_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, ScreamSchema, DELETE_SCREAM_FAILURE} from '../types/actionTypes/dataTypes'
-import {LOADING_UI, SET_ERRORS, CLEAR_ERRORS, CLOSE_WINDOW_POST_SCREAM, STOP_LOADING_UI, OPEN_DELETE_SCREAM_ALERT} from '../types/actionTypes/uiTypes';
+import {LOADING_UI, SET_ERRORS, CLEAR_ERRORS, CLOSE_WINDOW_POST_SCREAM, STOP_LOADING_UI, OPEN_DELETE_SCREAM_ALERT, CANCEL_SET_SCREAM} from '../types/actionTypes/uiTypes';
 import {Dispatch, AppState} from '../types';
-import axios from 'axios';
+import axios, {CancelTokenSource} from 'axios';
 import { clearErrors } from './uiActions';
 import {normalize} from 'normalizr';
 import * as schema from './schema';
@@ -37,25 +37,34 @@ export const getScreams = () => (dispacth : Dispatch) => {
 };
 
 //Get One Scream
-export const getScream = (screamId: string) => (dispatch: Dispatch, getState: () => AppState ) => {
+export const getScream = (screamId: string, cancelSource: CancelTokenSource) => (dispatch: Dispatch, getState: () => AppState ) => {
     dispatch({type: LOADING_UI});
-
-    axios.get(`/scream/${screamId}`)
+    /*const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();*/
+    axios.get(`/scream/${screamId}`, {cancelToken: cancelSource.token })
         .then( res => {
-            const state = getState()
-            if(!state.ui.isSetScreamCanceled){
+            //const state = getState()
+            //if(!state.ui.isSetScreamCanceled){
                 dispatch({
                     type: SET_SCREAM,
                     payload: res.data
                 })
-            }
+            //}
             
             dispatch({type: STOP_LOADING_UI})
         })
         .catch(error => {
+            if(axios.isCancel(error)) {
+                dispatch({type: CANCEL_SET_SCREAM})
+                console.log(error.message);
+            }
             console.log(error)
         });
-};
+    };
+
+export const cancelSetScream = (cancelSource: CancelTokenSource) => (dispatch: Dispatch) => {
+        cancelSource.cancel('Cancel by user')
+    }
 
 
 //PostScream

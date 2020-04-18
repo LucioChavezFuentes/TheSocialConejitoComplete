@@ -7,6 +7,7 @@ import MyButton from '../../util/MyButton';
 import LikeButton from './LikeButton';
 import Comments from './Comments';
 import CommentForm from './CommentForm';
+import axios, {CancelTokenSource} from 'axios';
 
 //MUI Imports
 import Dialog from '@material-ui/core/Dialog';
@@ -22,8 +23,8 @@ import ChatIcon from '@material-ui/icons/Chat';
 
 //Redux Imports
 import {connect} from 'react-redux';
-import {getScream} from '../../redux/actions/dataActions';
-import {clearErrors, cancelSetScream} from '../../redux/actions/uiActions';
+import {getScream, cancelSetScream} from '../../redux/actions/dataActions';
+import {clearErrors} from '../../redux/actions/uiActions';
 import { AppState } from '../../redux/types';
 
 //const microMobile = 270;
@@ -96,10 +97,10 @@ interface Props extends WithStyles<typeof styles>{
     ui: AppState['ui'];
     screamId: string;
     userHandle: string;
-    getScream: (screamId: string) => void;
+    getScream: (screamId: string, cancelSource: CancelTokenSource) => void;
     clearErrors: () => void;
     openDialog?: boolean;
-    cancelSetScream: () => void;
+    cancelSetScream: (cancelSource: CancelTokenSource) => void;
 }
 
 interface State {
@@ -125,10 +126,14 @@ class ScreamDialog extends Component<screamDialogProps, State> {
         hasClosed: false, 
     }
 
+    source : any = null
+
     componentDidMount() {
+        
         if(this.props.openDialog || this.props.match.params.screamId === this.props.screamId){
             this.handleOpen()
         }
+
     }
 
 //TODO: Find a way to use componentDidUpdate only on the scream selected in the URL
@@ -147,6 +152,9 @@ class ScreamDialog extends Component<screamDialogProps, State> {
     } 
     
     handleOpen = () => {
+        const CancelToken = axios.CancelToken;
+        // create the source
+        this.source = CancelToken.source();
         let oldPath = window.location.pathname
 
         const {screamId, userHandle} = this.props;
@@ -159,13 +167,13 @@ class ScreamDialog extends Component<screamDialogProps, State> {
         window.history.pushState(null, '', newPath)
 
         this.setState({open: true, oldPath, newPath, hasClosed: false});
-        this.props.getScream(this.props.screamId);
+        this.props.getScream(this.props.screamId, this.source);
     }
 
     handleClose = () => {
         const loading = this.props.ui.loading;
         if(loading){
-            this.props.cancelSetScream()
+            this.props.cancelSetScream(this.source)
         }
         this.props.history.push(this.state.oldPath)
         //window.history.pushState(null, '', this.state.oldPath);
