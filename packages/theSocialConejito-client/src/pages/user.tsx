@@ -1,5 +1,4 @@
-import React, { Component} from 'react'
-import axios from 'axios';
+import React, { Component} from 'react';
 import Scream from '../components/scream/Scream';
 import StaticProfile from '../components/profile/StaticProfile';
 import ScreamSkeleton from '../util/ScreamSkeleton';
@@ -19,7 +18,9 @@ import { RouteComponentProps } from 'react-router-dom';
 interface Props extends RouteComponentProps<{handle: string, screamId: string}> {
     screams: any[];
     loading: boolean;
-    getUserDataAndScreams: (userHandle: string) => void
+    getUserDataAndScreams: (userHandle: string) => void;
+    user: AppState['data']['guestUser'];
+    loadingHostUser: boolean;
 }
 
 interface State {
@@ -42,13 +43,13 @@ class User extends Component<Props, State> {
         }
 
         this.props.getUserDataAndScreams(handle)
-        axios.get(`/user/${handle}`)
+        /*axios.get(`/user/${handle}`)
             .then( res => {
                 this.setState({
                     profile: res.data.user
                 })
             })
-            .catch(error => console.log(error))
+            .catch(error => console.log(error))*/
     }
 
     componentDidUpdate(prevProps:Props, prevState: State) {
@@ -57,13 +58,13 @@ class User extends Component<Props, State> {
 
         if(prevHandle !== handle){
             this.props.getUserDataAndScreams(handle)
-            axios.get(`/user/${handle}`)
+            /*axios.get(`/user/${handle}`)
                 .then( res => {
                     this.setState({
                         profile: res.data.user
                     })
                 })
-                .catch(error => console.log(error))
+                .catch(error => console.log(error))*/
         }
     }
 
@@ -72,10 +73,10 @@ class User extends Component<Props, State> {
     }
 
     render() {
-        const {screams, loading} = this.props;
+        const {screams, loading, loadingHostUser} = this.props;
         const {screamIdParams} = this.state;
 
-        const screamsMarkUp = loading ? (
+        const screamsMarkUp = loading || loadingHostUser ? (
             <ScreamSkeleton />
         ) : (
             screams === null ? (
@@ -101,10 +102,11 @@ class User extends Component<Props, State> {
                 </Grid>
 
                 <Grid item sm={4} xs={12}>
-                    {this.state.profile ? (
-                        <StaticProfile profile={this.state.profile} />
-                        ) : (
+                    {loading ? (
                             <ProfileSkeleton />
+                        ) : (
+                            <StaticProfile profile={this.props.user} />
+                            
                         )
                     }
                 </Grid>          
@@ -115,7 +117,9 @@ class User extends Component<Props, State> {
 
 const mapStateToProps = (appState: AppState) => ({
     screams: getArrayOfScreams(appState.data.screams, appState.data.screamIds),
-    loading: appState.data.loading
+    loading: appState.data.loading,
+    user: appState.data.guestUser,
+    loadingHostUser: appState.user.loading
 });
 
 export default connect(mapStateToProps, {getUserDataAndScreams})(User);
