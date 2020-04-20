@@ -41,7 +41,7 @@ class User extends Component<Props, State> {
         if(screamIdParams) {
             this.setState({ screamIdParams: screamIdParams})
         }
-
+        //TODO: Make a cancel dispacth for this action when user doesnt need its data. 
         this.props.getUserDataAndScreams(handle)
         /*axios.get(`/user/${handle}`)
             .then( res => {

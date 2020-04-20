@@ -159,7 +159,7 @@ class ScreamDialog extends Component<screamDialogProps, State> {
 
         const {screamId, userHandle} = this.props;
         let newPath = `/users/${userHandle}/scream/${screamId}`;
-
+        //TODO: Make the user dont use spaces and more special characters for username
         if(oldPath === newPath){
             oldPath = `/users/${userHandle}`
         }
