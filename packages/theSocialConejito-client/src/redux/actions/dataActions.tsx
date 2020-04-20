@@ -1,10 +1,10 @@
-import { SET_SCREAMS, SET_SCREAMS_FAILURE, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM_SUCCESS, DELETING_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, ScreamSchema, DELETE_SCREAM_FAILURE} from '../types/actionTypes/dataTypes'
+import { SET_SCREAMS, SET_SCREAMS_FAILURE, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM_SUCCESS, DELETING_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, ScreamSchema, DELETE_SCREAM_FAILURE, SET_GUEST_USER_DATA} from '../types/actionTypes/dataTypes'
 import {LOADING_UI, SET_ERRORS, CLEAR_ERRORS, CLOSE_WINDOW_POST_SCREAM, STOP_LOADING_UI, OPEN_DELETE_SCREAM_ALERT, CANCEL_SET_SCREAM} from '../types/actionTypes/uiTypes';
 import {Dispatch, AppState} from '../types';
 import axios, {CancelTokenSource} from 'axios';
 import { clearErrors } from './uiActions';
 import {normalize} from 'normalizr';
-import * as schema from './schema';
+import * as schema from '../schema';
 
 
 interface commentData {
@@ -157,13 +157,13 @@ export const getUserDataAndScreams = (userHandle: string) => (dispatch: Dispatch
     dispatch({type: LOADING_DATA});
     axios.get(`/user/${userHandle}`)
         .then(res => {
-            //TODO: Fix the loading like property in backend for this end point
             //TODO: Find a way to add a test to redux thunks dispatch
-            const normalizedScremas : ScreamSchema = normalize(res.data.screams, schema.arrayOfScreams)
+            
             dispatch({
-                type:SET_SCREAMS,
-                payload: normalizedScremas
+                type:SET_GUEST_USER_DATA,
+                payload: res.data
             })
+
         })
         .catch((error) => {
             dispatch({

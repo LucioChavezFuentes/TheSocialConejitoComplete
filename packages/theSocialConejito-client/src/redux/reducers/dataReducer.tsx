@@ -1,9 +1,11 @@
 import { SET_SCREAMS, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, 
     DELETING_SCREAM, DELETE_SCREAM_SUCCESS, DELETE_SCREAM_FAILURE, 
-    POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, Scream, SUCCESS, FAILURE, NOT_REQUESTED} from '../types/actionTypes/dataTypes'
-
-
+    POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, Scream, 
+    SUCCESS, FAILURE, NOT_REQUESTED, SET_GUEST_USER_DATA, ScreamSchema} from '../types/actionTypes/dataTypes'
 import { Action } from "../types";
+
+import {normalize} from 'normalizr';
+import * as schema from '../schema';
 
 
 interface DataState {
@@ -18,6 +20,15 @@ interface DataState {
         status: typeof SUCCESS | typeof FAILURE | typeof NOT_REQUESTED;
         message: string;
     };
+    guestUser: {
+        location: string,
+        handle: string,
+        email: string,
+        bio: string,
+        imageUrl: string,
+        createdAt: string
+
+    }
 }
 
 const initialState : DataState = {
@@ -30,6 +41,15 @@ const initialState : DataState = {
         status: NOT_REQUESTED,
         message: ''
     },
+    guestUser: {
+        location: '',
+        handle: '',
+        email: '',
+        bio: '',
+        imageUrl: '',
+        createdAt: ''
+     
+    }
     
     
 }
@@ -160,7 +180,19 @@ export default function(state = initialState, action: Action) : DataState {
                     ...action.payload.dataScream,
                     comments: [action.payload.newComment, ...state.scream.comments]
                 }
-            }; 
+            };
+        case SET_GUEST_USER_DATA:
+            const normalizedScremas : ScreamSchema = normalize(action.payload.screams, schema.arrayOfScreams)
+
+            return {
+                ...state,
+                screams: normalizedScremas.entities.screams,
+                screamIds: normalizedScremas.result,
+                loading: false,
+                guestUser: {
+                    ...action.payload.user
+                }
+            }
         default:
             return state;
     }
