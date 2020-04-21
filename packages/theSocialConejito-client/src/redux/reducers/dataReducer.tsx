@@ -1,4 +1,4 @@
-import { SET_SCREAMS, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, 
+import { SET_SCREAMS, SET_SCREAMS_FAILURE, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, 
     DELETING_SCREAM, DELETE_SCREAM_SUCCESS, DELETE_SCREAM_FAILURE, 
     POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, Scream, 
     SUCCESS, FAILURE, NOT_REQUESTED, SET_GUEST_USER_DATA, ScreamSchema} from '../types/actionTypes/dataTypes'
@@ -28,7 +28,8 @@ interface DataState {
         imageUrl: string,
         createdAt: string
 
-    }
+    };
+    error: any
 }
 
 export const initialState : DataState = {
@@ -49,7 +50,9 @@ export const initialState : DataState = {
         imageUrl: '',
         createdAt: ''
      
-    }
+    },
+
+    error: {}
     
     
 }
@@ -67,6 +70,11 @@ export default function(state = initialState, action: Action) : DataState {
                 screams: action.payload.entities.screams,
                 screamIds: action.payload.result,
                 loading: false,
+            }
+        case SET_SCREAMS_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
             }
         case SET_SCREAM:
             return {

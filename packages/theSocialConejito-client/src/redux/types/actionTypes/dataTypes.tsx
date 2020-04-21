@@ -44,7 +44,7 @@ export interface SET_SCREAMS {
 
 export interface SET_SCREAMS_FAILURE {
     type: typeof SET_SCREAMS_FAILURE;
-    payload: [];
+    payload: any;
 }
 
 export interface CANCEL_SET_SCREAM {
