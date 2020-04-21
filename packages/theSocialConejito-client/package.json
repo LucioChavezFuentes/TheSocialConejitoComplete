@@ -59,5 +59,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://us-central1-thesocialmono.cloudfunctions.net/api"
+  "proxy": "https://us-central1-thesocialmono.cloudfunctions.net/api",
+  "devDependencies": {
+    "fetch-mock-jest": "^1.2.7"
+  }
 }

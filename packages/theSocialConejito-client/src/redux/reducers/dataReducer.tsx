@@ -31,7 +31,7 @@ interface DataState {
     }
 }
 
-const initialState : DataState = {
+export const initialState : DataState = {
     screams: {}, 
     scream: {},
     screamIds: [],
