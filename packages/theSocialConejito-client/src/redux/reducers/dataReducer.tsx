@@ -52,7 +52,7 @@ export const initialState : DataState = {
      
     },
 
-    error: {}
+    error: null,
     
     
 }
@@ -74,7 +74,10 @@ export default function(state = initialState, action: Action) : DataState {
         case SET_SCREAMS_FAILURE:
             return {
                 ...state,
+                screams: {},
+                screamIds: [],
                 error: action.payload,
+                loading: false,
             }
         case SET_SCREAM:
             return {
@@ -207,5 +210,10 @@ export default function(state = initialState, action: Action) : DataState {
 }
 
 export function getArrayOfScreams(screams : DataState['screams'], screamIds : string[]) {
-    return screamIds.map(id => screams[id])
+    if(screams && screamIds){
+        return screamIds.map(id => screams[id])
+    } else {
+        return []
+    }
+    
 }
