@@ -18,7 +18,7 @@ export const getScreams = () => (dispacth : Dispatch) => {
     dispacth({type: LOADING_DATA});
 
 
-    axios.get('/screams')
+    return axios.get('/screams')
         .then( res => {
             
             const normalizedScremas : ScreamSchema = normalize(res.data, schema.arrayOfScreams)
@@ -30,9 +30,8 @@ export const getScreams = () => (dispacth : Dispatch) => {
         .catch((error) => {
             dispacth({
                 type: SET_SCREAMS_FAILURE,
-                payload: [] 
+                payload: error 
             })
-            console.error(error)
         })
 };
 
