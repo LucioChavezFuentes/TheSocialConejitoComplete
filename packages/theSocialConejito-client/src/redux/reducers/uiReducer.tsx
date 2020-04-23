@@ -8,7 +8,7 @@ interface UIState {
     isDeleteScreamAlertOpen: boolean;
 }
 
-const initialState : UIState = {
+export const initialState : UIState = {
     loading: false,
     errors: {},
     isWindowPostScreamOpen: false,
@@ -23,6 +23,11 @@ export default function( state = initialState, action: Action) : UIState {
                 ...state,
                 loading: true,
             }
+        case STOP_LOADING_UI:
+            return {
+                ...state,
+                loading: false,
+                }
         case SET_ERRORS:
             return {
                 ...state,
@@ -59,11 +64,6 @@ export default function( state = initialState, action: Action) : UIState {
                 return {
                     ...state,
                 }
-        case STOP_LOADING_UI:
-            return {
-                ...state,
-                loading: false
-            }
         default:
             return state
     }
