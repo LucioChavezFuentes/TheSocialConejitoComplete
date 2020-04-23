@@ -86,17 +86,21 @@ export default function(state = initialState, action: Action) : DataState {
             }
         case LIKE_SCREAM:
         case UNLIKE_SCREAM:
-            //TODO: Find a way to reduce the complexity to constant in screams []
             return {
                 ...state,
                 screams: {
-                    ...state.screams,
+                    ...(state.screams[action.payload.screamId] ?
+                    {...state.screams,
                     [action.payload.screamId] : {
                         ...action.payload,
                         loadingLike: false
-                    }
+                    }} : 
+                    {...state.screams}
+                    )
                 },
-                scream: state.scream.screamId === action.payload.screamId ? {...state.scream, ...action.payload, loadingLike: false} : {...state.scream}
+                scream: state.scream.screamId === action.payload.screamId ? {...state.scream, ...action.payload, loadingLike: false} : {...state.scream},
+
+                error: state.screams[action.payload.screamId] ? null : 'The system is trying to like a scream is not found in the store'
                 
                 /*state.screams.map(scream => {
                     if(scream.screamId === action.payload.screamId) {
@@ -190,7 +194,7 @@ export default function(state = initialState, action: Action) : DataState {
                     ...state.scream,
                     ...action.payload.dataScream,
                     comments: [action.payload.newComment, ...state.scream.comments]
-                }
+                },
             };
         case SET_GUEST_USER_DATA:
             const normalizedScremas : ScreamSchema = normalize(action.payload.screams, schema.arrayOfScreams)
