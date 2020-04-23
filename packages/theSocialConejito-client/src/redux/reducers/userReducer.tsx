@@ -12,7 +12,7 @@ interface UserReducer {
 }
 
 
-const initialState : UserReducer = {
+export const initialState : UserReducer = {
     authenticated: false,
     credentials: {},
     likes: [],
