@@ -95,7 +95,10 @@ export interface POST_SCREAM {
 
 export interface SUBMIT_COMMENT {
     type: typeof SUBMIT_COMMENT;
-    payload: any;
+    payload: {
+        dataScream: any;
+        newComment: any
+    }
 }
 
 export interface SET_GUEST_USER_DATA{
