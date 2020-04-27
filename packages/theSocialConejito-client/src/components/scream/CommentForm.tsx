@@ -12,6 +12,7 @@ import { AppState } from '../../redux/store';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = createStyles({
     textField: {
@@ -27,13 +28,16 @@ const styles = createStyles({
         width: '90%',
         borderBottom: '1px solid rgba(0,0,0,0.1)',
         marginBottom: '1rem'
+    },
+    progress : {
+        position: 'absolute'
     }
 })
 
 interface Props extends WithStyles<typeof styles> {
     screamId: string
     submitComment: (screamId: string, commentData: {body: string}) => void;
-    ui: AppState['ui'];
+    data: AppState['data'];
     authenticated: boolean;
     errors: any;
     clearErrors: () => void;
@@ -79,7 +83,7 @@ class CommentForm extends Component<Props, State> {
     
 
     render() {
-        const {authenticated, errors, classes} = this.props;
+        const {authenticated, errors, classes , data: {isSubmittingComment}} = this.props;
         
         const commentMarkUp = authenticated ? (
             <Grid item sm={12} style={{ textAlign: 'center'}}>
@@ -95,8 +99,10 @@ class CommentForm extends Component<Props, State> {
                         fullWidth
                         className={classes.textField} 
                     />
-                    <Button type='submit' variant='contained' color='primary' className={classes.button}>
+                    <Button type='submit' variant='contained' color='primary' className={classes.button} disabled={isSubmittingComment}>
                         Comment
+                        {isSubmittingComment && (
+                            <CircularProgress size={30} className={classes.progress} />)}
                     </Button>
 
                     <hr className={classes.visibleSeparator} />
@@ -112,7 +118,7 @@ class CommentForm extends Component<Props, State> {
 }
 
 const mapStateToProps = (appState: AppState) => ({
-    ui: appState.ui,
+    data: appState.data,
     authenticated: appState.user.authenticated,
     errors: appState.ui.errors
 })

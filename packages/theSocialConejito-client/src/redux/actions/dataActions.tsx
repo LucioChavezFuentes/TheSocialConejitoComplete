@@ -1,4 +1,4 @@
-import { SET_SCREAMS, SET_SCREAMS_FAILURE, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM_SUCCESS, DELETING_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, ScreamSchema, DELETE_SCREAM_FAILURE, SET_GUEST_USER_DATA} from '../types/actionTypes/dataTypes'
+import { SET_SCREAMS, SET_SCREAMS_FAILURE, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM_SUCCESS, DELETING_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, ScreamSchema, DELETE_SCREAM_FAILURE, SET_GUEST_USER_DATA, SUBMITTING_COMMENT} from '../types/actionTypes/dataTypes'
 import {LOADING_UI, SET_ERRORS, CLEAR_ERRORS, CLOSE_WINDOW_POST_SCREAM, STOP_LOADING_UI, OPEN_DELETE_SCREAM_ALERT, CANCEL_SET_SCREAM} from '../types/actionTypes/uiTypes';
 import {Dispatch, AppState} from '../types';
 import axios, {CancelTokenSource} from 'axios';
@@ -115,6 +115,9 @@ export const unlikeScream = (screamId : string) => (dispatch: Dispatch) => {
 };
 
 export const submitComment = (screamId: string, commentData: commentData) => (dispatch: Dispatch) => {
+    dispatch({
+        type: SUBMITTING_COMMENT,
+    })
     axios.post(`/scream/${screamId}/comment`, commentData)
         .then( res => {
             dispatch({

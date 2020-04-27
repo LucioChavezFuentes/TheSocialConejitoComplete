@@ -1,7 +1,8 @@
 import { SET_SCREAMS, SET_SCREAMS_FAILURE, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, 
     DELETING_SCREAM, DELETE_SCREAM_SUCCESS, DELETE_SCREAM_FAILURE, 
     POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, Scream, 
-    SUCCESS, FAILURE, NOT_REQUESTED, SET_GUEST_USER_DATA, ScreamSchema} from '../types/actionTypes/dataTypes'
+    SUCCESS, FAILURE, NOT_REQUESTED, SET_GUEST_USER_DATA, ScreamSchema, SUBMITTING_COMMENT} from '../types/actionTypes/dataTypes'
+import {SET_ERRORS} from '../types/actionTypes/uiTypes';
 import { Action } from "../types";
 
 import {normalize} from 'normalizr';
@@ -20,6 +21,7 @@ interface DataState {
         status: typeof SUCCESS | typeof FAILURE | typeof NOT_REQUESTED;
         message: string;
     };
+    isSubmittingComment: boolean;
     guestUser: {
         location: string,
         handle: string,
@@ -42,6 +44,7 @@ export const initialState : DataState = {
         status: NOT_REQUESTED,
         message: ''
     },
+    isSubmittingComment: false,
     guestUser: {
         location: '',
         handle: '',
@@ -195,6 +198,17 @@ export default function(state = initialState, action: Action) : DataState {
                     ...action.payload.dataScream,
                     comments: [action.payload.newComment, ...state.scream.comments]
                 },
+                isSubmittingComment: false,
+            };
+        case SUBMITTING_COMMENT:
+            return {
+                ...state,
+                isSubmittingComment: true,
+            };
+        case SET_ERRORS:
+            return {
+                ...state,
+                isSubmittingComment: false,
             };
         case SET_GUEST_USER_DATA:
             const normalizedScremas : ScreamSchema = normalize(action.payload.screams, schema.arrayOfScreams)
@@ -207,7 +221,7 @@ export default function(state = initialState, action: Action) : DataState {
                 guestUser: {
                     ...action.payload.user
                 }
-            }
+            };
         default:
             return state;
     }

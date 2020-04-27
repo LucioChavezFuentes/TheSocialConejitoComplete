@@ -15,6 +15,7 @@ export const SET_SCREAM = 'SET_SCREAM';
 export const CANCEL_SET_SCREAM = 'CANCEL_SET_SCREAM';
 export const SUBMIT_COMMENT = 'SUBMIT_COMMENT';
 export const SET_GUEST_USER_DATA = 'SET_GUEST_USER_DATA';
+export const SUBMITTING_COMMENT = 'SUBMITTING_COMMENT';
 
 export const SUCCESS = 'SUCCESS';
 export const FAILURE = 'FAILURE';
@@ -101,6 +102,10 @@ export interface SUBMIT_COMMENT {
     }
 }
 
+export interface SUBMITTING_COMMENT {
+    type: typeof SUBMITTING_COMMENT;
+}
+
 export interface SET_GUEST_USER_DATA{
     type: typeof SET_GUEST_USER_DATA;
     payload: {
@@ -124,6 +129,7 @@ type DataActions = SET_SCREAMS |
     SUBMIT_COMMENT |
     LOADING_LIKE |
     SET_SCREAMS_FAILURE |
-    SET_GUEST_USER_DATA
+    SET_GUEST_USER_DATA |
+    SUBMITTING_COMMENT
 
 export default DataActions;
