@@ -2,6 +2,7 @@
 import {NormalizedSchema} from 'normalizr';
 
 export const SET_SCREAMS = 'SET_SCREAMS';
+export const CANCEL_SET_SCREAMS = 'CANCEL_SET_SCREAMS';
 export const SET_SCREAMS_FAILURE = 'SET_SCREAMS_FAILURE';
 export const LOADING_DATA = 'LOADING_DATA';
 export const LIKE_SCREAM = 'LIKE_SCREAM';
@@ -15,6 +16,7 @@ export const SET_SCREAM = 'SET_SCREAM';
 export const CANCEL_SET_SCREAM = 'CANCEL_SET_SCREAM';
 export const SUBMIT_COMMENT = 'SUBMIT_COMMENT';
 export const SET_GUEST_USER_DATA = 'SET_GUEST_USER_DATA';
+export const CANCEL_GET_USER_GUEST_INFO = 'CANCEL_GET_USER_GUEST_INFO'
 export const SUBMITTING_COMMENT = 'SUBMITTING_COMMENT';
 
 export const SUCCESS = 'SUCCESS';
@@ -41,6 +43,10 @@ export type ScreamSchema = NormalizedSchema<{
 export interface SET_SCREAMS {
     type: typeof SET_SCREAMS;
     payload: ScreamSchema;
+}
+
+export interface CANCEL_SET_SCREAMS {
+    type: typeof CANCEL_SET_SCREAMS;
 }
 
 export interface SET_SCREAMS_FAILURE {
@@ -114,6 +120,10 @@ export interface SET_GUEST_USER_DATA{
     }
 }
 
+export interface CANCEL_GET_USER_GUEST_INFO {
+    type: typeof CANCEL_GET_USER_GUEST_INFO
+}
+
 
 
 type DataActions = SET_SCREAMS | 
@@ -130,6 +140,8 @@ type DataActions = SET_SCREAMS |
     LOADING_LIKE |
     SET_SCREAMS_FAILURE |
     SET_GUEST_USER_DATA |
-    SUBMITTING_COMMENT
+    SUBMITTING_COMMENT |
+    CANCEL_GET_USER_GUEST_INFO |
+    CANCEL_SET_SCREAMS
 
 export default DataActions;

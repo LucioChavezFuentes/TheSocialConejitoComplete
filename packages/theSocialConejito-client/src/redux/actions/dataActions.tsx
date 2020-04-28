@@ -1,4 +1,4 @@
-import { SET_SCREAMS, SET_SCREAMS_FAILURE, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM_SUCCESS, DELETING_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, ScreamSchema, DELETE_SCREAM_FAILURE, SET_GUEST_USER_DATA, SUBMITTING_COMMENT} from '../types/actionTypes/dataTypes'
+import { SET_SCREAMS, SET_SCREAMS_FAILURE, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM_SUCCESS, DELETING_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT, LOADING_LIKE, ScreamSchema, DELETE_SCREAM_FAILURE, SET_GUEST_USER_DATA, SUBMITTING_COMMENT, CANCEL_GET_USER_GUEST_INFO, CANCEL_SET_SCREAMS} from '../types/actionTypes/dataTypes'
 import {LOADING_UI, SET_ERRORS, CLEAR_ERRORS, CLOSE_WINDOW_POST_SCREAM, STOP_LOADING_UI, OPEN_DELETE_SCREAM_ALERT, CANCEL_SET_SCREAM} from '../types/actionTypes/uiTypes';
 import {Dispatch, AppState} from '../types';
 import axios, {CancelTokenSource} from 'axios';
@@ -14,33 +14,42 @@ interface commentData {
 
 
 //Get ALL Screams
-export const getScreams = () => (dispacth : Dispatch) => {
-    dispacth({type: LOADING_DATA});
+export const getScreams = (axiosCancelToken: CancelTokenSource) => (dispatch : Dispatch) => {
+    dispatch({type: LOADING_DATA});
 
 
-    return axios.get('/screams')
+    return axios.get('/screams', {cancelToken: axiosCancelToken.token })
         .then( res => {
             
             const normalizedScremas : ScreamSchema = normalize(res.data, schema.arrayOfScreams)
-            dispacth({
+            dispatch({
                 type:SET_SCREAMS,
                 payload: normalizedScremas
             })
         })
         .catch((error) => {
-            dispacth({
+            if(axios.isCancel(error)) {
+                dispatch({type: CANCEL_SET_SCREAMS})
+                console.log(error.message);
+                return
+            }
+            dispatch({
                 type: SET_SCREAMS_FAILURE,
                 payload: error 
             })
         })
 };
 
+export const cancelGetScreams = (axiosCancelToken: CancelTokenSource) => {
+    axiosCancelToken.cancel("SET_SCREAMS Canceled by user's changing page")
+}
+
 //Get One Scream
-export const getScream = (screamId: string, cancelSource: CancelTokenSource) => (dispatch: Dispatch, getState: () => AppState ) => {
+export const getScream = (screamId: string, axiosCancelToken: CancelTokenSource) => (dispatch: Dispatch, getState: () => AppState ) => {
     dispatch({type: LOADING_UI});
     /*const CancelToken = axios.CancelToken;
     const source = CancelToken.source();*/
-    axios.get(`/scream/${screamId}`, {cancelToken: cancelSource.token })
+    axios.get(`/scream/${screamId}`, {cancelToken: axiosCancelToken.token })
         .then( res => {
             //const state = getState()
             //if(!state.ui.isSetScreamCanceled){
@@ -155,9 +164,9 @@ export const deleteScream = (screamId: string) => (dispatch: Dispatch) => {
         })
 };
 
-export const getUserDataAndScreams = (userHandle: string) => (dispatch: Dispatch) => {
+export const getUserDataAndScreams = (userHandle: string, axiosCancelToken: CancelTokenSource) => (dispatch: Dispatch) => {
     dispatch({type: LOADING_DATA});
-    axios.get(`/user/${userHandle}`)
+    axios.get(`/user/${userHandle}`, {cancelToken: axiosCancelToken.token })
         .then(res => {
             //TODO: Find a way to add a test to redux thunks dispatch
             
@@ -168,6 +177,12 @@ export const getUserDataAndScreams = (userHandle: string) => (dispatch: Dispatch
 
         })
         .catch((error) => {
+            if(axios.isCancel(error)) {
+                dispatch({type: CANCEL_GET_USER_GUEST_INFO})
+                console.log(error.message);
+                return
+            }
+
             dispatch({
                 type: SET_SCREAMS_FAILURE,
                 payload: []
@@ -175,5 +190,9 @@ export const getUserDataAndScreams = (userHandle: string) => (dispatch: Dispatch
             })
             console.error(error)
         } )
+}
+
+export const cancelGetUserInfo = (axiosCancelToken: CancelTokenSource) => {
+    axiosCancelToken.cancel("Cancel by user's changing page")
 }
 

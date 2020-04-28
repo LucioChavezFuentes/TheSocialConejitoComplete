@@ -4,6 +4,8 @@ import StaticProfile from '../components/profile/StaticProfile';
 import ScreamSkeleton from '../util/ScreamSkeleton';
 import ProfileSkeleton from '../util/ProfileSkeleton';
 
+import {cancelGetUserInfo} from '../redux/actions/dataActions';
+
 //MUI Imports
 import Grid from '@material-ui/core/Grid';
 
@@ -14,11 +16,14 @@ import {getArrayOfScreams} from '../redux/reducers/dataReducer';
 import {AppState} from '../redux/types';
 import { RouteComponentProps } from 'react-router-dom';
 
+//Axios
+import axios, {CancelTokenSource} from 'axios';
+
 
 interface Props extends RouteComponentProps<{handle: string, screamId: string}> {
     screams: any[];
     loading: boolean;
-    getUserDataAndScreams: (userHandle: string) => void;
+    getUserDataAndScreams: (userHandle: string, axiosCancelToken: CancelTokenSource) => void;
     user: AppState['data']['guestUser'];
     loadingHostUser: boolean;
 }
@@ -29,20 +34,23 @@ interface State {
 }
 
 class User extends Component<Props, State> {
+    
     state: State = {
         profile: null,
         screamIdParams: null
     }
+
+    axiosCancelToken : CancelTokenSource = axios.CancelToken.source();
      
     componentDidMount() {
         const handle = this.props.match.params.handle;
         const screamIdParams = this.props.match.params.screamId;
 
         if(screamIdParams) {
-            this.setState({ screamIdParams: screamIdParams})
+            this.setState({ screamIdParams: screamIdParams});
         }
         //TODO: Make a cancel dispacth for this action when user doesnt need its data. 
-        this.props.getUserDataAndScreams(handle)
+        this.props.getUserDataAndScreams(handle, this.axiosCancelToken)
         /*axios.get(`/user/${handle}`)
             .then( res => {
                 this.setState({
@@ -57,7 +65,8 @@ class User extends Component<Props, State> {
         const prevHandle = prevProps.match.params.handle;
 
         if(prevHandle !== handle){
-            this.props.getUserDataAndScreams(handle)
+            this.axiosCancelToken = axios.CancelToken.source();
+            this.props.getUserDataAndScreams(handle, this.axiosCancelToken);
             /*axios.get(`/user/${handle}`)
                 .then( res => {
                     this.setState({
@@ -66,6 +75,10 @@ class User extends Component<Props, State> {
                 })
                 .catch(error => console.log(error))*/
         }
+    }
+
+    componentWillUnmount() {
+        cancelGetUserInfo(this.axiosCancelToken);
     }
 
     getSpacing = () => {

@@ -4,11 +4,16 @@ import ScreamSkeleton from '../util/ScreamSkeleton';
 import Scream from '../components/scream/Scream';
 import Profile from '../components/profile/Profile';
 
+import {cancelGetScreams} from '../redux/actions/dataActions';
+
 //Redux import 
 import {connect} from 'react-redux';
 import {getScreams} from '../redux/actions/dataActions';
 import {getArrayOfScreams} from '../redux/reducers/dataReducer';
 import { AppState } from '../redux/types';
+
+//Axios
+import axios, {CancelTokenSource} from 'axios';
 
 //Types Interfaces
 interface HomeState {
@@ -18,7 +23,7 @@ interface HomeState {
 interface HomeProps {
     screams: any[];
     loading: boolean;
-    getScreams: () => void;
+    getScreams: (axiosCancelToken : CancelTokenSource) => void;
 
 }
 
@@ -27,8 +32,14 @@ class Home extends Component<HomeProps, HomeState> {
         screams: null
     }
 
+    axiosCancelToken : CancelTokenSource = axios.CancelToken.source();
+
     componentDidMount(){
-        this.props.getScreams()
+        this.props.getScreams(this.axiosCancelToken);
+    }
+
+    componentWillUnmount(){
+        cancelGetScreams(this.axiosCancelToken);
     }
 
     getSpacing = () => {
