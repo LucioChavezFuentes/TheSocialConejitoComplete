@@ -63,7 +63,12 @@ describe('home page', () => {
             }
         
         //const normalizedScreams : dataTypes.ScreamSchema = normalize(payload.data, schema.arrayOfScreams)
-        
+        mockAxios.CancelToken.source.mockImplementation(() => {
+          return {
+            token: '',
+            cancel: () => {}
+          }
+        })
         mockAxios.get.mockResolvedValue(payload);
         /*dataActions.getScreams.mockImplementation(() =>  {
 
