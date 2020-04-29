@@ -41,7 +41,12 @@ export const getScreams = (axiosCancelToken: CancelTokenSource) => (dispatch : D
 };
 
 export const cancelGetScreams = (axiosCancelToken: CancelTokenSource) => {
-    axiosCancelToken.cancel("SET_SCREAMS Canceled by user's changing page")
+    if(axiosCancelToken) {
+        axiosCancelToken.cancel("SET_SCREAMS Canceled by user's changing page")
+    } else {
+        console.warn('No cancel token received, check axios library')
+    }
+    
 }
 
 //Get One Scream
