@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {BrowserRouter} from 'react-router-dom';
+import {BrowserRouter as Router, Switch} from 'react-router-dom';
 import Home from '../home';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
@@ -30,13 +30,11 @@ const theme = createMuiTheme({
   })
 
 const HomeComponent = () => (
-    <MuiThemeProvider theme={theme}>
         <Provider store={store}>
-            <BrowserRouter>
-                <Home/>
-            </BrowserRouter>
+          <Router>
+            <Home/>
+          </Router> 
         </Provider>
-    </MuiThemeProvider>
 )
 
 
