@@ -1,16 +1,23 @@
-jest.mock('axios');
+jest.unmock('axios');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import axios from 'axios';
-//import {} from './redux/actions/userActions';
+import {BrowserRouter as Router, Switch, Route,} from 'react-router-dom';
+import Home from './pages/home';
+import User from './pages/user';
+import NavBar from './components/layout/NavBar/NavBar';
+import { Provider } from 'react-redux';
+import * as dataActions from './redux/actions/dataActions'
+
 
 //React Testing Library
 import { render, cleanup, waitFor, fireEvent} from '@testing-library/react';
 // mock Types
 import { mocked } from 'ts-jest/utils';
-import { SET_USER } from './redux/types/actionTypes/userTypes';
+import { SET_USER, SET_UNAUTHENTICATED } from './redux/types/actionTypes/userTypes';
+import store, {makeNewStore} from './redux/store';
 
 describe('App', () => {
 
@@ -35,34 +42,40 @@ describe('App', () => {
     }
   }
 
-  /*axios.post = jest.fn().mockResolvedValue(dummyToken);
-  axios.get = jest.fn().mockResolvedValue(dummyUserProfileData);*/
+  axios.post = jest.fn();
+  axios.get = jest.fn();
+  const spyCancelGetUserInfo = jest.spyOn(dataActions, 'cancelGetUserInfo');
+  //const mockAxios = mocked(axios, true);
 
-  const mockAxios = mocked(axios, true);
-  //const mockPostAxios = mocked(axios.post, true);
-
+  //mocked is a useful library for TypeScript to get mock Types of a mocked dependency in Jest
+  const mockPostAxios = mocked(axios.post, true);
+  const mockGetAxios = mocked(axios.get, true);
   beforeEach(() => {
-    /*mockGetAxios.mockClear();
-    mockPostAxios.mockClear();*/
-    mockAxios.mockClear();
+    mockGetAxios.mockClear();
+    mockPostAxios.mockClear();
+    //mockCancelGetUserInfo.mockClear();
+    //mockAxios.mockClear();
     //Don't forget to clear the sub-methods such as 'get' or 'post'
-    mockAxios.get.mockClear();
+    //mockAxios.get.mockClear();
+    //store.dispatch({type: SET_UNAUTHENTICATED})
+    
   });
 
   afterEach(cleanup);
 
   
-
+  //When APP renders, axios 'get' and 'CancelToken' method are executed. 
+  //Get must be mocked to prevent server calls, cancel is used in the app, so mock cancel is not necessary (as far I see).
 
   it('renders without crashing', () => {
 
-    mockAxios.get.mockResolvedValue(dummyUserProfileData);
-    mockAxios.CancelToken.source.mockImplementation(() => {
+    mockGetAxios.mockResolvedValue(dummyUserProfileData);
+    /*mockAxios.CancelToken.source.mockImplementation(() => {
       return {
         token: {},
         cancel: () => {}
       }
-    })
+    })*/
 
     const div = document.createElement('div');
     ReactDOM.render(<App />, div);
@@ -73,14 +86,14 @@ describe('App', () => {
 
     
 
-    mockAxios.post.mockResolvedValue(dummyToken);
-    mockAxios.get.mockResolvedValue(dummyUserProfileData);
-    mockAxios.CancelToken.source.mockImplementation(() => {
+    mockPostAxios.mockResolvedValue(dummyToken);
+    mockGetAxios.mockResolvedValue(dummyUserProfileData);
+    /*mockAxios.CancelToken.source.mockImplementation(() => {
       return {
         token: {},
         cancel: () => {}
       }
-    })
+    })*/
 
     /*const mockLoginUser = jest.fn(loginUser).mockImplementation((userData, history) => (dispatch) => {
       dispatch({
@@ -113,7 +126,85 @@ describe('App', () => {
     
     await waitFor(() => expect(getByText('En tu corazón')).toBeTruthy());
     await waitFor(() => expect(axios.get).toHaveBeenCalledTimes(3));
+  });
 
+  const HomeUser = () => {
+    return (
+        <Provider store={makeNewStore()}>
+          <Router>
+          <NavBar />
+            <div className="container">
+              <Switch>
+  
+                <Route exact path='/' component={Home} />
+  
+                <Route exact path='/users/:handle' component={User} />
+  
+              </Switch>
+  
+            </div>
+          </Router>
+        </Provider>
+    );
+  }
+
+  const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
+
+  
+
+  test('if Home unmounted cancel loading getScreams', async () => {
+
+    //TODO: spy on cancelGetScreams 
+
+    mockGetAxios.mockResolvedValue(delay(500).then(() => {
+      return {
+        data : [{
+                screamId: '2', body: 'Buenas monos', userHandle:'user22', userImage: "https://firebasestorage.googleapis.com/v0/b/thesocialmono.appspot.com/o/6789615555.jpg?alt=media"
+            }, {
+                screamId: '3', body: 'Hola a todos', userHandle:'user22', userImage: "https://firebasestorage.googleapis.com/v0/b/thesocialmono.appspot.com/o/6789615555.jpg?alt=media"
+            }]
+        }
+    }));
+
+    const {getByText, getAllByText, getByAltText} = render(<HomeUser />)
+    const leftClick = {button: 0};
+    await waitFor(() => expect(axios.get).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(getByText('Buenas monos')).toBeTruthy());
+
+    mockGetAxios.mockResolvedValueOnce(delay(500).then(() => {
+        return {
+          data : {
+            screams : [{
+              screamId: '2', body: 'Buenas monos', userHandle:'user22', userImage: "https://firebasestorage.googleapis.com/v0/b/thesocialmono.appspot.com/o/6789615555.jpg?alt=media"
+            }, {
+              screamId: '3', body: 'Hola a todos', userHandle:'user22', userImage: "https://firebasestorage.googleapis.com/v0/b/thesocialmono.appspot.com/o/6789615555.jpg?alt=media"
+            }]
+          }
+        }
+      }
+    ));
+
+    const userLink = getAllByText('user22')[0];
+    fireEvent.click(userLink, leftClick);
+
+    mockGetAxios.mockResolvedValue(delay(500).then(() => {
+      return {
+        data : [{
+                screamId: '2', body: 'Buenas monos', userHandle:'user22', userImage: "https://firebasestorage.googleapis.com/v0/b/thesocialmono.appspot.com/o/6789615555.jpg?alt=media"
+            }, {
+                screamId: '3', body: 'Hola a todos', userHandle:'user22', userImage: "https://firebasestorage.googleapis.com/v0/b/thesocialmono.appspot.com/o/6789615555.jpg?alt=media"
+            }]
+        }
+    }));
+
+    expect(getByAltText('profile')).toBeTruthy()
+
+    const homeLink = getAllByText('Home')[0];
+    //const submitButton = getByText('¡A Programar!');
+    fireEvent.click(homeLink, leftClick);
+    expect(spyCancelGetUserInfo).toHaveBeenCalledTimes(1);
+    spyCancelGetUserInfo.mockRestore()
   })
 
 })
