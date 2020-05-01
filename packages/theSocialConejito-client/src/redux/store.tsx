@@ -25,5 +25,14 @@ const store = createStore(
     )
 );
 
+//makeNewStore only for testing purposes
+export const makeNewStore = () => createStore(
+    reducers, 
+    initialState, 
+    applyMiddleware(...middleware),
+    )
+
 export default store;
+
+
 export type AppState = ReturnType<typeof reducers>;
