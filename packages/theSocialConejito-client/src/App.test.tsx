@@ -45,6 +45,7 @@ describe('App', () => {
   axios.post = jest.fn();
   axios.get = jest.fn();
   const spyCancelGetUserInfo = jest.spyOn(dataActions, 'cancelGetUserInfo');
+  const spyCancelGetScreams = jest.spyOn(dataActions, 'cancelGetScreams')
   //const mockAxios = mocked(axios, true);
 
   //mocked is a useful library for TypeScript to get mock Types of a mocked dependency in Jest
@@ -58,10 +59,13 @@ describe('App', () => {
     //Don't forget to clear the sub-methods such as 'get' or 'post'
     //mockAxios.get.mockClear();
     //store.dispatch({type: SET_UNAUTHENTICATED})
-    
+    spyCancelGetScreams.mockClear();
   });
 
-  afterEach(cleanup);
+  afterEach(() =>{
+    spyCancelGetScreams.mockClear();
+    cleanup();
+  } );
 
   
   //When APP renders, axios 'get' and 'CancelToken' method are executed. 
@@ -204,7 +208,12 @@ describe('App', () => {
     //const submitButton = getByText('¡A Programar!');
     fireEvent.click(homeLink, leftClick);
     expect(spyCancelGetUserInfo).toHaveBeenCalledTimes(1);
-    spyCancelGetUserInfo.mockRestore()
+    spyCancelGetUserInfo.mockRestore();
+
+    const loginLink = getAllByText('Login')[0];
+    fireEvent.click(loginLink, leftClick);
+    expect(spyCancelGetScreams).toHaveBeenCalledTimes(2);
+    spyCancelGetScreams.mockRestore();
   })
 
 })
