@@ -1,3 +1,10 @@
+interface Data {
+    email : string,
+    password : string,
+    confirmPassword : string,
+    handle : string,
+}
+
 
  const isEmpty = (string: string) => {
     if (string.trim() === '') {
@@ -17,11 +24,37 @@
 };
 
 const isValidHandle = (handle:string) => {
-    const regExp = /^[a-zA-Z0-9 ]{2,20}$/
+    const regExp = /^[a-zA-Z0-9 ]*$/
     if (handle.match(regExp)) {
         return true;
     } else {
         return false;
+    }
+}
+
+const isHandleLengthShort = (handle: string) => {
+    if(handle.length < 2 ){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+const isHandleLengthLong = (handle: string) => {
+    if(handle.length > 20) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+export const removeHandleExtraSpaces = (data : Data) => {
+
+    const newHandle = data.handle.trim().replace(/\s\s+/g, ' ');
+
+    return {
+        ...data,
+        handle : newHandle
     }
 }
 
@@ -42,11 +75,19 @@ export const validateSignUpData = (data: any) => {
     if(data.password !== data.confirmPassword) {
         errors.confirmPassword = 'The password does not match'
     }
+
     if(isEmpty(data.handle)) {
         errors.handle = 'Must not be empty'
+
     } else if (!isValidHandle(data.handle)) {
         errors.handle = "Please don't use especial characters like ! @ # $ % ^ & *"
-    }
+
+    } else if(isHandleLengthLong(data.handle)) {
+        errors.handle = 'The username can only have maximum 20 characters'
+
+    } else if (isHandleLengthShort(data.handle)) {
+        errors.handle = 'Please write a name with at least 2 characters '
+    } 
 
     return {
         errors,
