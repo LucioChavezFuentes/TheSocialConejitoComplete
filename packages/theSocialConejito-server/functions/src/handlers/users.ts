@@ -1,13 +1,18 @@
 import {admin, db} from '../util/admin'
 import * as firebase from 'firebase';
 import { fbConfig } from '../util/config';
-import {validateSignUpData, validateLoginData, reduceUserDetails} from '../util/validators';
+import {validateSignUpData, validateLoginData, reduceUserDetails, removeHandleExtraSpaces} from '../util/validators';
 import  * as Busboy from 'busboy';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as os from 'os'; 
 //import { Request, Response } from 'express';
-
+interface NewUser {
+    email : string,
+    password : string,
+    confirmPassword : string,
+    handle : string,
+}
 
 firebase.initializeApp(fbConfig)
 
@@ -17,12 +22,14 @@ export const signUp = (req: any, res: any) => {
     let userId : any;
     let token: any;
 
-    const newUser = {
+    const rawNewUser : NewUser = {
         email : req.body.email,
         password : req.body.password,
         confirmPassword : req.body.confirmPassword,
         handle : req.body.handle,
     };
+
+    const newUser = removeHandleExtraSpaces(rawNewUser)
 
     const {valid, errors} = validateSignUpData(newUser)
 
@@ -33,7 +40,7 @@ export const signUp = (req: any, res: any) => {
     db.doc(`/users/${newUser.handle}`).get()
         .then(doc => {
             if(doc.exists) {
-                return res.status(400).json({handle:'this handle is already taken'})
+                return res.status(400).json({handle:'This name is already taken'})
             }
             else {
                 return firebase.auth()
