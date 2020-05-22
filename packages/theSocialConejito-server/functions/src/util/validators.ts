@@ -16,6 +16,15 @@
     }
 };
 
+const isValidHandle = (handle:string) => {
+    const regExp = /^[a-zA-Z0-9 ]{2,20}$/
+    if (handle.match(regExp)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 export const validateSignUpData = (data: any) => {
 
     const errors : any = {};
@@ -35,6 +44,8 @@ export const validateSignUpData = (data: any) => {
     }
     if(isEmpty(data.handle)) {
         errors.handle = 'Must not be empty'
+    } else if (!isValidHandle(data.handle)) {
+        errors.handle = "Please don't use especial characters like ! @ # $ % ^ & *"
     }
 
     return {

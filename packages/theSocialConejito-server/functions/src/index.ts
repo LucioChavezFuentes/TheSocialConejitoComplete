@@ -1,7 +1,7 @@
 //If you are gonna use TypeScript in Node, dont forget to install @types/node
 
 import * as functions from 'firebase-functions';
-import * as express from 'express'
+import * as express from 'express';
 import {db} from './util/admin';
 const cors = require('cors');
 
