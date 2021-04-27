@@ -28,6 +28,18 @@ export const getAllScreams = (req: any, res: any) => {
         .catch( error => console.error(error))
 };
 
+export const getAllScreamIds = (req: any, res: any) => {
+    db.collection('screams')
+    .listDocuments()
+    .then(documentRefs => {
+        return res.json({numberOfDocs: documentRefs.length})
+    })
+    .catch(error => {
+        res.status(500).json({error: `check the 'getAllScreamIds' function in BackEnd pal`})
+        console.error(error);
+    })
+}
+
 export const postOneScream = (req: any, res: any) => {
     if (req.body.body.trim() === '') {
          res.status(400).json({ body: 'Body must not be empty' });
